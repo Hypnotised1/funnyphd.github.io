@@ -46,6 +46,8 @@
 
 
 
+  <meta name="baidu-site-verification" content="kKLXwVlluL8HyVn7">
+
 
 
 
@@ -110,18 +112,18 @@
 
 
 
-  <meta name="description" content="在日常工作中, 我们有时需要处理大量文件以及文件夹, 本文介绍python中操作文件(夹)的模块os和shutil 以及查看文件状态的模块stat. 注意: `os`模块中也有`stat`函数, 使用方法为`os.stat(path, *, dir_fd=None, follow_symlinks=True)`, 模块`stat`为实现`os.stat()`的底层模块, 可以直接调用该模块查看文件">
+  <meta name="description" content="在日常工作中, 我们有时需要处理大量文件以及文件夹, 本文介绍python中操作文件(夹)的模块os和shutil 以及查看文件状态的模块stat.  注意: os模块中也有stat函数, 使用方法为os.stat(path, *, dir_fd=None, follow_symlinks=True), 模块stat为实现os.stat()的底层模块, 可以直接调用该模块查看文件详细信息, 也可以">
 <meta name="keywords" content="Python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python操作文件(夹)">
 <meta property="og:url" content="https://funnyphd.com/2019/12/30/Python-file/index.html">
 <meta property="og:site_name" content="Hypnotised">
-<meta property="og:description" content="在日常工作中, 我们有时需要处理大量文件以及文件夹, 本文介绍python中操作文件(夹)的模块os和shutil 以及查看文件状态的模块stat. 注意: `os`模块中也有`stat`函数, 使用方法为`os.stat(path, *, dir_fd=None, follow_symlinks=True)`, 模块`stat`为实现`os.stat()`的底层模块, 可以直接调用该模块查看文件">
+<meta property="og:description" content="在日常工作中, 我们有时需要处理大量文件以及文件夹, 本文介绍python中操作文件(夹)的模块os和shutil 以及查看文件状态的模块stat.  注意: os模块中也有stat函数, 使用方法为os.stat(path, *, dir_fd=None, follow_symlinks=True), 模块stat为实现os.stat()的底层模块, 可以直接调用该模块查看文件详细信息, 也可以">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-01-29T02:05:14.119Z">
+<meta property="og:updated_time" content="2020-02-18T02:44:48.213Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python操作文件(夹)">
-<meta name="twitter:description" content="在日常工作中, 我们有时需要处理大量文件以及文件夹, 本文介绍python中操作文件(夹)的模块os和shutil 以及查看文件状态的模块stat. 注意: `os`模块中也有`stat`函数, 使用方法为`os.stat(path, *, dir_fd=None, follow_symlinks=True)`, 模块`stat`为实现`os.stat()`的底层模块, 可以直接调用该模块查看文件">
+<meta name="twitter:description" content="在日常工作中, 我们有时需要处理大量文件以及文件夹, 本文介绍python中操作文件(夹)的模块os和shutil 以及查看文件状态的模块stat.  注意: os模块中也有stat函数, 使用方法为os.stat(path, *, dir_fd=None, follow_symlinks=True), 模块stat为实现os.stat()的底层模块, 可以直接调用该模块查看文件详细信息, 也可以">
 
 
 
@@ -145,6 +147,16 @@
 
 
 
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?facc89af2c48fb94d3d82548f3010f68";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -425,46 +437,66 @@
 
       
         <p>在日常工作中, 我们有时需要处理大量文件以及文件夹, 本文介绍python中操作文件(夹)的模块<code>os</code>和<code>shutil</code> 以及查看文件状态的模块<code>stat</code>.</p>
-<pre><code>注意: `os`模块中也有`stat`函数, 使用方法为`os.stat(path, *, dir_fd=None, follow_symlinks=True)`, 模块`stat`为实现`os.stat()`的底层模块, 可以直接调用该模块查看文件详细信息, 也可以使用`os.stat`查看文件信息.
-</code></pre><a id="more"></a>
-<p>导入<code>os</code>模块</p>
+<blockquote>
+<p>注意: <code>os</code>模块中也有<code>stat</code>函数, 使用方法为<code>os.stat(path, *, dir_fd=None, follow_symlinks=True)</code>, 模块<code>stat</code>为实现<code>os.stat()</code>的底层模块, 可以直接调用该模块查看文件详细信息, 也可以使用<code>os.stat</code>查看文件信息.<br><a id="more"></a></p>
+</blockquote>
+<p>导入相关模块</p>
 <pre><code>import os, stat, shutil
 </code></pre><p>获取当前目录</p>
 <pre><code>os.getcwd()
 &gt;&gt;&gt;d:\Github_workspace\
+</code></pre><p>获取执行文件的目录</p>
+<pre><code>os.path.dirname(__file__)
 </code></pre><p>将目录切换至C盘下的Windows文件夹</p>
 <pre><code>os.chdir(&apos;C:/Windows&apos;)
 </code></pre><p>查看当面目录下所有文件(夹)</p>
-<pre><code>os.listdir()
-&gt;&gt;&gt;[&apos;db.json&apos;, &apos;node_modules&apos;, &apos;package-lock.json&apos;, &apos;package.json&apos;, &apos;public&apos;, &apos;scaffolds&apos;, &apos;source&apos;, &apos;themes&apos;, &apos;_config.yml&apos;]
+<pre><code>os.listdir(path=None)
+os.listdir()
+&gt;&gt;&gt;[&apos;node_modules&apos;, &apos;package.json&apos;, &apos;public&apos;, &apos;scaffolds&apos;, &apos;source&apos;, &apos;themes&apos;, &apos;_config.yml&apos;]
 </code></pre><p>查看文件(夹)信息</p>
 <pre><code>os.stat(&apos;./aaa.txt)
 &gt;&gt;&gt;os.stat_result(st_mode=33060, st_ino=1125899906847384, st_dev=1511501194, st_nlink=1, st_uid=0, st_gid=0, st_size=26, st_atime=1580096882, st_mtime=1580096858, st_ctime=1580096735)
-
-# st_mode 文件权限, st_ino 文件的inode(每个文件有单独的一个inode) 如果想要详细了解可以查看[阮一峰的博客](https://www.ruanyifeng.com/blog/2011/12/inode.html), st_dev 文件所在设备, st_nlink 文件的硬链接数, st_uid 文件所有者的用户标识, st_gid 文件所有者的组标识, st_size 文件字节数, st_atime2 最后一次访问的时间(秒), st_mtime 最后一次修改内容的时间(秒), st_ctime 由操作系统报告的&quot;ctime&quot;, 在某些系统上(如Unix)是最新的元数据更改的时间, 在其它系统上(如Windows)是创建时间.
-</code></pre><p>修改文件(夹)权限</p>
+</code></pre><blockquote>
+<p>st_mode 文件权限, st_ino 文件的inode(每个文件有单独的一个inode) 如果想要详细了解可以查看<a href="https://www.ruanyifeng.com/blog/2011/12/inode.html" target="_blank" rel="noopener">阮一峰的博客</a>, st_dev 文件所在设备, st_nlink 文件的硬链接数, st_uid 文件所有者的用户标识, st_gid 文件所有者的组标识, st_size 文件字节数, st_atime2 最后一次访问的时间(秒), st_mtime 最后一次修改内容的时间(秒), st_ctime 由操作系统报告的”ctime”, 在某些系统上(如Unix)是最新的元数据更改的时间, 在其它系统上(如Windows)是创建时间.</p>
+</blockquote>
+<p>修改文件(夹)权限</p>
 <pre><code>os.chmod(path, mode) #path为文件(夹)的路径(相对路径或者绝对路径都可以), mode为stat.S_IREAD(windows下设为只读), stat.S_IWRITE(windows下取消只读)
 os.chmod(&apos;./aaa.txt&apos;,stat.S_IREAD)
+</code></pre><p>修改文件(夹)名称</p>
+<pre><code>os.rename(src, dst) #src为原文件(夹)名称, dst为想要修改的文件(夹)名称
+os.rename(&apos;D:/aa/aaa.txt&apos;, &apos;D:/aa/bbb.txt&apos;)
 </code></pre><p>判断是否是文件(夹)</p>
 <pre><code>os.path.isdir(path)/os.path.isfile(path)
 os.path.isdir(&apos;D:/aa/aaa.txt&apos;)
 &gt;&gt;&gt;False
 os.path.isfile(&apos;D:/aa/aaa.txt&apos;)     
 &gt;&gt;&gt;True
+</code></pre><p>判断文件夹是否存在</p>
+<pre><code>os.path.exists(path)
+os.path.exists(&apos;D:/aa/&apos;)
+&gt;&gt;&gt;True
 </code></pre><p>删除文件(夹)</p>
 <pre><code>os.remove(path)/os.rmdir(path)
 os.remove(&apos;D:/aa/ccc.txt&apos;)
 os.rmdir(&apos;D:/aa/ccc&apos;)
+</code></pre><p>创建文件夹</p>
+<pre><code>os.mkdir(path) #创建文件夹/os.makedirs(path) 多层创建文件夹
+os.mkdir(&apos;./aaa/&apos;) 
+os.makedirs(&apos;./aaa/bbb/ccc/&apos;) 
 </code></pre><p>复制文件(夹)</p>
-<pre><code>shutil.copy(src, dst, follow_symlinks=Ture) #将文件复制到dst目录, 不会复制文件相关的Metadata, 从而导致修改了文件的相关属性如: 访问时间, 创建时间等
-shutil.copy2(src, dst, follow_symlinks=Ture) #将文件复制到dst目录下, 会复制文件相关的Metadata, 不会修改文件属性
+<pre><code>#将文件复制到dst目录, 不会复制文件相关的Metadata, 从而导致修改了文件的相关属性如: 访问时间, 创建时间等
+shutil.copy(src, dst, follow_symlinks=Ture) 
+
+#将文件复制到dst目录下, 会复制文件相关的Metadata, 不会修改文件属性
+shutil.copy2(src, dst, follow_symlinks=Ture) 
 
 shutil.copy(&apos;D:/aa/aaa.txt&apos;,&apos;D:/aa/ccc.txt&apos;)
 &gt;&gt;&gt;&apos;D:/aa/ccc.txt&apos;
 shutil.copy(&apos;D:/aa/aaa.txt&apos;,&apos;D:/aa/ddd.txt&apos;)
 &gt;&gt;&gt;&apos;D:/aa/ddd.txt&apos;
 
-#与拷贝文件相对应, shutil.copytree为拷贝目录的函数, 默认使用shutil.copy2函数来拷贝文件, 因此文件相关的Metadata会被拷贝
+#与拷贝文件相对应, shutil.copytree为拷贝目录的函数
+#默认使用shutil.copy2函数来拷贝文件, 因此文件相关的Metadata会被拷贝
 shutil.copytree(src, dst, symlinks=False, ignore=None, copy_function=copy2, ignore_dangling_symlinks=False)
 shutil.copytree(&apos;D:/aa/&apos;,&apos;D:/aa/ccc&apos;)
 &gt;&gt;&gt;&apos;D:/aa/ccc&apos;
@@ -472,8 +504,7 @@ shutil.copytree(&apos;D:/aa/&apos;,&apos;D:/aa/ccc&apos;)
 <pre><code>shutil.move(src, dst, copy_function=copy2)
 shutil.move(&apos;D:/aa/aaa.txt&apos;,&apos;D:/aa/xxx.txt&apos;)
 &gt;&gt;&gt;&apos;D:/aa/xxx.txt&apos;
-</code></pre><p>查看文件编码<br>chardet</p>
-
+</code></pre>
       
     </div>
 
@@ -509,8 +540,8 @@ shutil.move(&apos;D:/aa/aaa.txt&apos;,&apos;D:/aa/xxx.txt&apos;)
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/12/30/Python-excel/" rel="next" title="Python读写Excel">
-                <i class="fa fa-chevron-left"></i> Python读写Excel
+              <a href="/2019/10/14/activation-functions/" rel="next" title="常用激活函数- Sigmoid - Tanh - ReLU - Softmax">
+                <i class="fa fa-chevron-left"></i> 常用激活函数- Sigmoid - Tanh - ReLU - Softmax
               </a>
             
           </div>
@@ -519,8 +550,8 @@ shutil.move(&apos;D:/aa/aaa.txt&apos;,&apos;D:/aa/xxx.txt&apos;)
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/01/05/Mklink/" rel="prev" title="云盘同步命令之mklink">
-                云盘同步命令之mklink <i class="fa fa-chevron-right"></i>
+              <a href="/2019/12/30/Python-excel/" rel="prev" title="Python读写Excel">
+                Python读写Excel <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

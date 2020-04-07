@@ -46,6 +46,8 @@
 
 
 
+  <meta name="baidu-site-verification" content="kKLXwVlluL8HyVn7">
+
 
 
 
@@ -125,7 +127,7 @@
 <meta property="og:image" content="https://funnyphd.com/uploads/images/ssrpac.png">
 <meta property="og:image" content="https://funnyphd.com/uploads/images/ssrtcping64.png">
 <meta property="og:image" content="https://funnyphd.com/uploads/images/google.png">
-<meta property="og:updated_time" content="2019-12-26T08:25:43.000Z">
+<meta property="og:updated_time" content="2020-02-25T03:02:13.150Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="科学上网之SSR搭建教程">
 <meta name="twitter:description" content="科学上网原理和工具谈到科学上网首先离不开的是GFW(Great Firewall), 如何进行科学上网, 就是通过某种手段使得我们的流量通过(绕过)GFW的审查. 下面详细介绍如何通过(绕过)审查.">
@@ -153,6 +155,16 @@
 
 
 
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?facc89af2c48fb94d3d82548f3010f68";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -463,6 +475,18 @@
 </ol>
 <p><img src="/uploads/images/google.png" alt="Google]"></p>
 <p>[1]链接: <a href="https://pan.baidu.com/s/1IP-eXiathRdQD7sCrNZvCQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1IP-eXiathRdQD7sCrNZvCQ</a> 提取码: mhq3</p>
+<h1 id="SSR-用户自定义文件"><a href="#SSR-用户自定义文件" class="headerlink" title="SSR 用户自定义文件"></a>SSR 用户自定义文件</h1><p>pac.txt为PAC(Proxy auto-config)模式下的定义文件, 如果直接编辑该文件比较乱. 在SSR中除了pac.txt可以定义相关链接, 还有一个user-rule.txt文件(没有可以自行创建), 该文件可以让用户自行添加需要使用代理的文件.</p>
+<h1 id="A-line-which-start-with-“-”-is-comment"><a href="#A-line-which-start-with-“-”-is-comment" class="headerlink" title="A line which start with “#” is comment"></a>A line which start with “#” is comment</h1><h1 id="The-new-one-will-overwrite-the-same-item-before"><a href="#The-new-one-will-overwrite-the-same-item-before" class="headerlink" title="The new one will overwrite the same item before"></a>The new one will overwrite the same item before</h1><h1 id="“a-com”-means-“a-com”-only-“-a-com”-means-all-sub-domains-of-“a-com”-only-“-a-com”-means-“-a-com”-amp-“a-com”"><a href="#“a-com”-means-“a-com”-only-“-a-com”-means-all-sub-domains-of-“a-com”-only-“-a-com”-means-“-a-com”-amp-“a-com”" class="headerlink" title="“a.com” means “a.com” only, “.a.com” means all sub domains of “a.com” only, “.a.com” means “.a.com” &amp; “a.com”"></a>“a.com” means “a.com” only, “<em>.a.com” means all sub domains of “a.com” only, “.a.com” means “</em>.a.com” &amp; “a.com”</h1><h1 id="系统代理模式-以及-代理规则"><a href="#系统代理模式-以及-代理规则" class="headerlink" title="系统代理模式 以及 代理规则"></a>系统代理模式 以及 代理规则</h1><p><a href="https://doubibackup.com/3we1qxzj-7.html" target="_blank" rel="noopener">https://doubibackup.com/3we1qxzj-7.html</a></p>
+<p>ShadowsocksR目前分两种规则方式，那就是 系统代理模式（PAC、全局，主要解释PAC） 和 代理规则 。</p>
+<p>PAC规则 是根据PAC文件中的黑白地址名单来判断那些网站走代理。也就是判断 流量是否进入客户端。</p>
+<p>当你要访问的网站满足 PAC里的设置，那么浏览器就会向代理服务器也就是客户端发送网站请求数据，这时候我们才进入了ShadowsocksR客户端，接下来我们就进入了代理规则判断环节。</p>
+<p>代理规则 是根据IP判断，按选择的规则来判断进入 客户端的流量是直连还是走代理。</p>
+<p>当你访问 XXX 网站，然后是全局或者满足PAC条件（不满足条件就直接直连访问了，也不会有接下来的代理规则判断了）从而访问 XXX网站的请求数据流量进入了客户端，然后客户端会根据 XXX网站的IP来判断，如下：</p>
+<p>绕过局域网：当IP属于局域网内的，那么SSR客户端就会让流量直连，反之则会让流量走代理（发送到SSR服务端）。<br>绕过局域网和大陆：当IP属于大陆内或局域网的，那么SSR客户端就会让流量直连，反之则会让流量走代理（发送到SSR服务端）。<br>绕过局域网和非大陆：当IP属于大陆外(非大陆IP都算大陆外)或局域网的，那么SSR客户端就会让流量直连，反之则会让流量走代理（发送到SSR服务端）。<br>全局：无论什么情况都直接走代理。<br>这两种判断方式是相互配合使用的，先用系统代理模式来判断是否让数据进入SSR客户端，再用代理规则来判断进入SSR客户端的数据是直连还是走代理。</p>
+<p>代理规则为：绕过局域网，则判断 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 域名的IP是否是局域网IP，然而不是局域网IP，于是走代理。</p>
+<p>代理规则为：绕过局域网和大陆，则判断 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 域名的IP是否是局域网IP 或 大陆IP，然而不是局域网IP或大陆IP，于是走代理。</p>
+<p>代理规则为：绕过局域网和非大陆，则判断 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 域名的IP是否是局域网IP 或 非大陆IP，然而是非大陆IP，于是不走代理，直连。</p>
+<p>代理规则为：全局，不判断 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 域名的IP，直接走代理。</p>
 <h1 id="SSR的面板配置"><a href="#SSR的面板配置" class="headerlink" title="SSR的面板配置"></a>SSR的面板配置</h1><p>未完待续</p>
 
       
@@ -500,8 +524,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/07/frp/" rel="next" title="内网穿透工具 - FRP">
-                <i class="fa fa-chevron-left"></i> 内网穿透工具 - FRP
+              <a href="/2019/10/11/python-random/" rel="next" title="随机数">
+                <i class="fa fa-chevron-left"></i> 随机数
               </a>
             
           </div>
@@ -510,8 +534,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/11/python-random/" rel="prev" title="随机数">
-                随机数 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/13/cross-entropy/" rel="prev" title="信息熵 - 条件熵 - 交叉熵">
+                信息熵 - 条件熵 - 交叉熵 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -681,7 +705,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#科学上网原理和工具"><span class="nav-number">1.</span> <span class="nav-text">科学上网原理和工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR搭建"><span class="nav-number">2.</span> <span class="nav-text">SSR搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR的面板配置"><span class="nav-number">3.</span> <span class="nav-text">SSR的面板配置</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#科学上网原理和工具"><span class="nav-number">1.</span> <span class="nav-text">科学上网原理和工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR搭建"><span class="nav-number">2.</span> <span class="nav-text">SSR搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR-用户自定义文件"><span class="nav-number">3.</span> <span class="nav-text">SSR 用户自定义文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A-line-which-start-with-“-”-is-comment"><span class="nav-number">4.</span> <span class="nav-text">A line which start with “#” is comment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-new-one-will-overwrite-the-same-item-before"><span class="nav-number">5.</span> <span class="nav-text">The new one will overwrite the same item before</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#“a-com”-means-“a-com”-only-“-a-com”-means-all-sub-domains-of-“a-com”-only-“-a-com”-means-“-a-com”-amp-“a-com”"><span class="nav-number">6.</span> <span class="nav-text">“a.com” means “a.com” only, “.a.com” means all sub domains of “a.com” only, “.a.com” means “.a.com” &amp; “a.com”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统代理模式-以及-代理规则"><span class="nav-number">7.</span> <span class="nav-text">系统代理模式 以及 代理规则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR的面板配置"><span class="nav-number">8.</span> <span class="nav-text">SSR的面板配置</span></a></li></ol></div>
             
 
           </div>
