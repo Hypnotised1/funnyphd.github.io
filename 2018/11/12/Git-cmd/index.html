@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="google-site-verification" content="Jb_bjwF9Vf0LkWaFJ-iBd1dcohPoVP9XEjxZ3DKsPpI">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.5.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon0.5-0.5.jpg?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon0.5-0.5.jpg?v=6.5.0">
+
+
+  <link rel="mask-icon" href="/images/favicon.jpg?v=6.5.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.5.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="查看帮助文档12git help -agit help -g">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git常用命令">
+<meta property="og:url" content="https://funnyphd.com/2018/11/12/Git-cmd/index.html">
+<meta property="og:site_name" content="Hypnotised">
+<meta property="og:description" content="查看帮助文档12git help -agit help -g">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-01T12:57:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git常用命令">
+<meta name="twitter:description" content="查看帮助文档12git help -agit help -g">
+
+
+
+
+
+
+  <link rel="canonical" href="https://funnyphd.com/2018/11/12/Git-cmd/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Git常用命令 | Hypnotised</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hypnotised</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://funnyphd.com/2018/11/12/Git-cmd/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lxx">
+      <meta itemprop="description" content="舒之弥四海，卷之不赢怀。">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hypnotised">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Git常用命令
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-12 21:51:02" itemprop="dateCreated datePublished" datetime="2018-11-12T21:51:02+08:00">2018-11-12</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/12/Git-cmd/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/12/Git-cmd/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>查看帮助文档<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git help -a</span><br><span class="line">git help -g</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h1 id="创建、提交、修改、删除、查看"><a href="#创建、提交、修改、删除、查看" class="headerlink" title="创建、提交、修改、删除、查看"></a>创建、提交、修改、删除、查看</h1><p>创建版本库<br><code>git init</code></p>
+<p>将文件添加进入工作区(暂存区)<br><code>git add filename,filename</code></p>
+<p>将文件提交至仓库<br><code>git commit -m &quot;提交说明&quot;</code><br>查看仓库状态(可以查看本仓库文件是否经过修改)<br><code>git status</code><br>查看修改内容<br><code>git diff filename</code><br>查看工作区和版本库最新版本区别<br><code>git diff HEAD -- filename</code></p>
+<p>放弃工作区修改(两种情况：将文件退回至git add | git commit 之前的状态)<br><code>git checkout -- filename</code></p>
+<p>文件git add 后退回至为add状态,需要两步(将暂存区清空,退回至上一步)<br><code>git reset HEAD filename</code><br><code>git checkout -- filename</code></p>
+<p>删除文件<br><code>git rm filename</code><br><code>git commit -m &quot;remove filename&quot;</code></p>
+<p>删错文件(没有用上面的命令删除)<br><code>git checkout -- filename</code></p>
+<h1 id="版本管理"><a href="#版本管理" class="headerlink" title="版本管理"></a>版本管理</h1><p>查看历史修改记录(时间由近到远)<br><code>git log</code><br><code>git log --pretty=oneline</code></p>
+<p>版本号—修改说明<br>9a5ab0a322a61185ea0ce38039340505135b65b3 (HEAD -&gt; master) GPL<br>58d20e868b89baa3000c00f7ed6d107df67d4b14 add distributed<br>17decf5b8210e73c65541816f15cf78c945ba83f wrote a readme file</p>
+<p>HEAD表示当前版本,上一版本为HEAD^,上上个则为HEAD^^,向上多个版本可以写成 HEAD~15</p>
+<p>退回到上个版本<br><code>git reset --hard HEAD^</code><br>回溯至当前版本<br><code>git rest --hard 当前版本号(可以不用写全)</code></p>
+<p>查看命令历史<br><code>git reflog</code></p>
+<h1 id="远程仓库操作"><a href="#远程仓库操作" class="headerlink" title="远程仓库操作"></a>远程仓库操作</h1><p>将远程仓库与本地库关联(远程仓库的默认名称是origin)<br><code>git remote add origin git@github.com:Hypnotised1/test.git</code><br>将本地库进行推送<br><code>git push -u origin master</code><br>-u参数指定默认分支,指定后可以直接使用 git push 进行提交<br>查看远程仓库信息<br><code>git remote -v</code><br>推送分支<br><code>git push origin branchname</code></p>
+<p>删除远程分支<br><code>git push origin :branchname</code><br>冒号代表删除</p>
+<h1 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h1><p>Git中的主分支是master,HEAD指向的是分支(master或其他分支),master指向提交,从而使得HEAD指向最新的提交.</p>
+<p>创建分支<br>git checkout -b branchname,参数b表示创建分支并切换至该分支,可以下面两个命令来表示<br><code>git branch branchname</code><br><code>git checkout branchname:切换至branchname分支</code></p>
+<p>查看分支<br><code>git branch</code><br>合并分支(将branchname合并至当前分支,默认采用Fast forward模式),Fast forward模式方便快捷但是删除分支后会丢失分支信息<br><code>git merge branchname</code></p>
+<p>删除分支<br><code>git branch -d branchname</code><br>强制删除分支<br><code>git branch -D branchname</code></p>
+<p>解决分支冲突(手动解决冲突)<br><code>git merge branchname</code><br>修改文件,重新add,commit</p>
+<p>查看分支合并情况<br><code>git log --graph --pretty=oneline --abbrev-commit</code></p>
+<p>不使用Fast forward模式进行合并<br><code>git merge --no-ff -m &quot;merge with no-ff&quot; branchname</code><br>-m表示的是进行提交,不使用Fast forward模式在查看分支合并情况时可用看出是进行过提交和修改.</p>
+<p>Bug分支:在开发分支上进行开发,还不能提交至主分支,但是出现了bug,需要进行切换至bug分支进行解决<br><code>git stash</code>,将当前工作分区进行储存</p>
+<p><code>git stash list</code>,查看工作分区表</p>
+<p><code>git stash apply</code>,恢复工作分区, 需要使用git stash drop来删除工作区<br><code>git stash pop</code>,恢复工作分区的同时将该工作区删除<br><code>git stash apply stash@{0}</code> 恢复指定工作分区</p>
+<h1 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h1><blockquote>
+<p>注意：标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签。</p>
+</blockquote>
+<p>标签,默认是打在最新提交的commit上的<br><code>git tag tagname</code><br><code>git log --pretty=oneline --abbrev-commit</code><br>给历史提交打标签<br><code>git tag tagname commitID(075bc67)</code><br>查看标签信息<br><code>git show tagname</code><br>创建带有说明的表情<br><code>git tag -a v1.1 -m &quot;version 1.1 &quot;</code><br>删除标签<br><code>git tag -d v1.1</code><br>推送标签至远程服务器<br><code>git push origin tagname</code><br>推送所有标签至远程服务器<br><code>git push origin --tags</code><br>删除已经推送至远程的标签:删除本地标签,删除远程标签<br><code>git tag -d v0.9</code><br><code>git push origin :refs/tags/v0.9</code></p>
+<h1 id="子模块"><a href="#子模块" class="headerlink" title="子模块"></a>子模块</h1><p>添加子模块<br><code>git submodule add git@github.com:Hypnotised1/BlogSource.git</code><br>克隆带子模块的项目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:theme-next/test1</span><br><span class="line">git submodule init</span><br><span class="line">git submodule update</span><br></pre></td></tr></table></figure></p>
+<h1 id="忽略特殊文件设置-gitignore"><a href="#忽略特殊文件设置-gitignore" class="headerlink" title="忽略特殊文件设置.gitignore"></a>忽略特殊文件设置.gitignore</h1><p>修改该文件的内容,但是已经纳入版本管理的文件修改.gitignore是无效的,解决办法是先把本地缓存删除,然后再提交<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;update .gitignore&quot;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/14/Policy-value/" rel="next" title="策略迭代和值迭代">
+                <i class="fa fa-chevron-left"></i> 策略迭代和值迭代
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/22/Python-MATLAB/" rel="prev" title="python调用MATLAB">
+                python调用MATLAB <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/favicon.jpg" alt="Lxx">
+            
+              <p class="site-author-name" itemprop="name">Lxx</p>
+              <p class="site-description motion-element" itemprop="description">舒之弥四海，卷之不赢怀。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/Hypnotised1" title="GitHub &rarr; https://github.com/Hypnotised1" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/LxxHHxx" title="Twitter &rarr; https://twitter.com/LxxHHxx" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#创建、提交、修改、删除、查看"><span class="nav-number">1.</span> <span class="nav-text">创建、提交、修改、删除、查看</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本管理"><span class="nav-number">2.</span> <span class="nav-text">版本管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#远程仓库操作"><span class="nav-number">3.</span> <span class="nav-text">远程仓库操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分支"><span class="nav-number">4.</span> <span class="nav-text">分支</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标签"><span class="nav-number">5.</span> <span class="nav-text">标签</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#子模块"><span class="nav-number">6.</span> <span class="nav-text">子模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#忽略特殊文件设置-gitignore"><span class="nav-number">7.</span> <span class="nav-text">忽略特殊文件设置.gitignore</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lxx</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.5.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.5.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://www-funnyphd-com.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'https://funnyphd.com/2018/11/12/Git-cmd/';
+        this.page.identifier = '2018/11/12/Git-cmd/';
+        this.page.title = 'Git常用命令';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://www-funnyphd-com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase-firestore.js"></script>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.1/bluebird.core.min.js"></script>
+  
+  <script>
+    (function () {
+
+      firebase.initializeApp({
+        apiKey: 'AIzaSyDWeym6CpMx912otTrgtGN1TFXXp_PzmSw',
+        projectId: 'funnyphd-ec889'
+      })
+
+      function getCount(doc, increaseCount) {
+        //increaseCount will be false when not in article page
+
+        return doc.get().then(function (d) {
+          var count
+          if (!d.exists) { //has no data, initialize count
+            if (increaseCount) {
+              doc.set({
+                count: 1
+              })
+              count = 1
+            }
+            else {
+              count = 0
+            }
+          }
+          else { //has data
+            count = d.data().count
+            if (increaseCount) {
+              if (!(window.localStorage && window.localStorage.getItem(title))) { //if first view this article
+                doc.set({ //increase count
+                  count: count + 1
+                })
+                count++
+              }
+            }
+          }
+          if (window.localStorage && increaseCount) { //mark as visited
+            localStorage.setItem(title, true)
+          }
+
+          return count
+        })
+      }
+
+      function appendCountTo(el) {
+        return function (count) {
+          $(el).append(
+            $('<span>').addClass('post-visitors-count').append(
+              $('<span>').addClass('post-meta-divider').text('|')
+            ).append(
+              $('<span>').addClass('post-meta-item-icon').append(
+                $('<i>').addClass('fa fa-users')
+              )
+              ).append($('<span>').text('阅读次数 ' + count))
+          )
+        }
+      }
+
+      var db = firebase.firestore()
+      var articles = db.collection('articles')
+
+      //https://hexo.io/docs/variables.html
+      var isPost = 'Git常用命令'.length > 0
+      var isArchive = '' === 'true'
+      var isCategory = ''.length > 0
+      var isTag = ''.length > 0
+
+      if (isPost) { //is article page
+        var title = 'Git常用命令'
+        var doc = articles.doc(title)
+
+        getCount(doc, true).then(appendCountTo($('.post-meta')))
+      }
+      else if (!isArchive && !isCategory && !isTag) { //is index page
+        var titles = [] //array to titles
+
+        var postsstr = '' //if you have a better way to get titles of posts, please change it
+        eval(postsstr)
+
+        var promises = titles.map(function (title) {
+          return articles.doc(title)
+        }).map(function (doc) {
+          return getCount(doc)
+        })
+        Promise.all(promises).then(function (counts) {
+          var metas = $('.post-meta')
+          counts.forEach(function (val, idx) {
+            appendCountTo(metas[idx])(val)
+          })
+        })
+      }
+    })()
+  </script>
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=6.5.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=6.5.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

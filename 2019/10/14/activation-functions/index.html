@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="google-site-verification" content="Jb_bjwF9Vf0LkWaFJ-iBd1dcohPoVP9XEjxZ3DKsPpI">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.5.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon0.5-0.5.jpg?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon0.5-0.5.jpg?v=6.5.0">
+
+
+  <link rel="mask-icon" href="/images/favicon.jpg?v=6.5.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.5.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="sigmoid表达式$S(x)= \frac{1}{1+ e^{-x}}$ $S\prime (x)= \frac{e^{-x}}{(1+e^{-x})^2} = S(x)(1-S(x))$">
+<meta name="keywords" content="强化学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用激活函数- Sigmoid - Tanh - ReLU - Softmax">
+<meta property="og:url" content="https://funnyphd.com/2019/10/14/activation-functions/index.html">
+<meta property="og:site_name" content="Hypnotised">
+<meta property="og:description" content="sigmoid表达式$S(x)= \frac{1}{1+ e^{-x}}$ $S\prime (x)= \frac{e^{-x}}{(1+e^{-x})^2} = S(x)(1-S(x))$">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://funnyphd.com/uploads/images/sigmoid.png">
+<meta property="og:image" content="https://funnyphd.com/uploads/images/tanh.png">
+<meta property="og:image" content="https://funnyphd.com/uploads/images/ReLU.png">
+<meta property="og:updated_time" content="2019-10-14T14:16:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常用激活函数- Sigmoid - Tanh - ReLU - Softmax">
+<meta name="twitter:description" content="sigmoid表达式$S(x)= \frac{1}{1+ e^{-x}}$ $S\prime (x)= \frac{e^{-x}}{(1+e^{-x})^2} = S(x)(1-S(x))$">
+<meta name="twitter:image" content="https://funnyphd.com/uploads/images/sigmoid.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://funnyphd.com/2019/10/14/activation-functions/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>常用激活函数- Sigmoid - Tanh - ReLU - Softmax | Hypnotised</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hypnotised</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://funnyphd.com/2019/10/14/activation-functions/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lxx">
+      <meta itemprop="description" content="舒之弥四海，卷之不赢怀。">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hypnotised">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">常用激活函数- Sigmoid - Tanh - ReLU - Softmax
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-14 21:40:32" itemprop="dateCreated datePublished" datetime="2019-10-14T21:40:32+08:00">2019-10-14</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/14/activation-functions/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/10/14/activation-functions/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="sigmoid"><a href="#sigmoid" class="headerlink" title="sigmoid"></a>sigmoid</h1><h2 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h2><p>$S(x)= \frac{1}{1+ e^{-x}}$</p>
+<p>$S\prime (x)= \frac{e^{-x}}{(1+e^{-x})^2} = S(x)(1-S(x))$<br><a id="more"></a></p>
+<h2 id="曲线"><a href="#曲线" class="headerlink" title="曲线"></a>曲线</h2><p><img src="/uploads/images/sigmoid.png" alt="sigmoid" title="sigmoid"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">x=np.linspace(-5,5,1000)  </span><br><span class="line">y=[1/(1+np.exp(-i)) for i in x]</span><br><span class="line">y=np.asarray(y)</span><br><span class="line">y1=y*(1-y)</span><br><span class="line">plt.plot(x,y,label=&apos;sigmoid&apos;)</span><br><span class="line">plt.plot(x,y1, label=&apos;Deriv sigmoid&apos;)</span><br><span class="line"></span><br><span class="line">plt.xlabel(&apos;x&apos;)</span><br><span class="line">plt.ylabel(&apos;f(x)&apos;)</span><br><span class="line">plt.legend(loc=&apos;best&apos;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>优点</p>
+<ol>
+<li>求导容易</li>
+<li>输出范围有限(0,1), 所以数据在传递的过程中不容易发散.</li>
+</ol>
+<p>缺点</p>
+<ol>
+<li>函数饱和使得梯度消失, 从而无法有效更新参数.</li>
+<li>函数输出为非零对称的(输出恒大于0), 从而导致梯度在反向传播中全部为正或者全部为负, 使得更新呈现”Z”字型.</li>
+<li>复杂的幂运算耗时严重.</li>
+</ol>
+<h1 id="tanh"><a href="#tanh" class="headerlink" title="tanh"></a>tanh</h1><h2 id="表达式-1"><a href="#表达式-1" class="headerlink" title="表达式"></a>表达式</h2><p>$tanh(x)= \frac{sinh(x)}{cosh(x)} = \frac{e^x - e^{-x}}{e^x + e^{-x}}$</p>
+<p>$tanh\prime (x) = 1- tanh^2(x)$</p>
+<h2 id="曲线-1"><a href="#曲线-1" class="headerlink" title="曲线"></a>曲线</h2><p><img src="/uploads/images/tanh.png" alt="tanh" title="tanh"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">x=np.linspace(-5,5,1000)  </span><br><span class="line">temp1=pow(np.e,x)</span><br><span class="line">temp2=pow(np.e,-x)</span><br><span class="line">y=(temp1-temp2)/(temp1+temp2)</span><br><span class="line">y1=1-y*y</span><br><span class="line"></span><br><span class="line">plt.plot(x,y,label=&apos;tanh&apos;)</span><br><span class="line">plt.plot(x,y1, label=&apos;Deriv tanh&apos;)</span><br><span class="line">plt.xlabel(&apos;x&apos;)</span><br><span class="line">plt.ylabel(&apos;f(x)&apos;)</span><br><span class="line">plt.legend(loc=&apos;best&apos;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h2 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h2><p>优点</p>
+<ol>
+<li>收敛速度快(相对于sigmoid)</li>
+<li>不存在非零对称问题</li>
+</ol>
+<p>缺点</p>
+<ol>
+<li>函数饱和使得梯度消失, 从而无法有效更新参数.</li>
+<li>复杂的幂运算耗时严重.</li>
+</ol>
+<h1 id="ReLU"><a href="#ReLU" class="headerlink" title="ReLU"></a>ReLU</h1><p>ReLU(Rectified Linear Unit), 整流线性单位函数, 也称修正线性单元. 通常指以斜坡函数及其变种为代表的非线性函数.</p>
+<h2 id="表达式-2"><a href="#表达式-2" class="headerlink" title="表达式"></a>表达式</h2><p>$$f(x) = max(0,x)$$</p>
+<!-- $$
+f(z) = \left\{ \begin{array}{rcl}
+1 & if \quad x>0 \\
+0 & otherwise \\
+\end{array}\right.
+$$ -->
+<p>$$<br>f(x)=<br>    \begin{cases}<br>        1 &amp; if \quad x&gt;0 \\<br>        0 &amp; otherwise<br>    \end{cases}<br>$$</p>
+<h2 id="曲线-2"><a href="#曲线-2" class="headerlink" title="曲线"></a>曲线</h2><p><img src="/uploads/images/ReLU.png" alt="ReLU" title="ReLU"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">x=np.linspace(-5,5,1000)</span><br><span class="line">y=np.zeros_like(x)</span><br><span class="line">y=np.where(x&gt;0, x, y )</span><br><span class="line">y1=np.where(x&gt;0, 1, 0 )</span><br><span class="line"></span><br><span class="line">plt.plot(x,y,label=&apos;ReLU&apos;)</span><br><span class="line">plt.plot(x,y1, label=&apos;Deriv ReLU&apos;)</span><br><span class="line"></span><br><span class="line">plt.xlabel(&apos;x&apos;)</span><br><span class="line">plt.ylabel(&apos;f(x)&apos;)</span><br><span class="line">plt.legend(loc=&apos;best&apos;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h2 id="优缺点-2"><a href="#优缺点-2" class="headerlink" title="优缺点"></a>优缺点</h2><p>优点</p>
+<ol>
+<li>没有饱和区, 不存在梯度消失问题.</li>
+<li>没有复杂的指数运算, 计算简单、效率提高.</li>
+<li>实际收敛速度较快, 大约是 Sigmoid/tanh 的 6 倍.</li>
+<li>比 Sigmoid 更符合生物学神经激活机制. </li>
+</ol>
+<p>缺点</p>
+<ol>
+<li>函数输出为非零对称</li>
+<li>Dead ReLU Problem(神经元坏死问题): 某些神经元可能永远不会被激活, 导致相应参数永远不会被更新(当x小于0时, 梯度为0). 产生这种现象的两个原因: 参数初始化问题; learning  rate太高导致在训练过程中参数更新太大. 解决方法: 采用Xavier初始化方法, 以及避免将learning rate设置太大或使用adagrad等自动调节learning rate的算法. </li>
+<li>ReLU不会对数据做幅度压缩, 所以数据的幅度会随着模型层数的增加不断扩张. </li>
+</ol>
+<h1 id="ReLU的变种版"><a href="#ReLU的变种版" class="headerlink" title="ReLU的变种版"></a>ReLU的变种版</h1><p>之所以叫变种而不是升级, 是因为在某些情况下可以超越ReLU, 但是在有些情况下则无效.</p>
+<h2 id="Leaky-ReLU"><a href="#Leaky-ReLU" class="headerlink" title="Leaky ReLU"></a>Leaky ReLU</h2><p>表达式</p>
+<p>$f(x) = max(0.01x,x)$</p>
+<p>为了解决Dead ReLU Problem, 将ReLU的前半段设为$0.01x$. </p>
+<h2 id="ELU-Exponential-Linear-Units"><a href="#ELU-Exponential-Linear-Units" class="headerlink" title="ELU(Exponential Linear Units)"></a>ELU(Exponential Linear Units)</h2><p>表达式</p>
+<!-- $$
+f(z) = \left\{ \begin{array}{rcl}
+x & if \quad x>0 \\
+\alpha(e^x -1) & otherwise \\
+\end{array}\right.
+$$ -->
+<p>$$<br>f(x)=<br>    \begin{cases}<br>        x &amp; if \quad x&gt;0 \\<br>        \alpha(e^x -1) &amp; otherwise<br>    \end{cases}<br>$$</p>
+<h1 id="softmax"><a href="#softmax" class="headerlink" title="softmax"></a>softmax</h1><p>softmax 函数, 可以称之为归一化指数函数, 其一般应用于多分类问题(输出层激励函数)</p>
+<p>它能将一个含人鱼实数的$K$维向量$Z$”压缩”到另一维实向量$\sigma(Z)$中, 使得每个元素的范围都在$(0,1)$之间, 并且所有元素和为1. </p>
+<p>$\sigma (z)_j = \frac{e^{z_j}}{\sum _{k=1}^K e^{z_k}} \quad  for j=1,2, \cdots, K$</p>
+<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="函数饱和"><a href="#函数饱和" class="headerlink" title="函数饱和"></a>函数饱和</h2><p>假设$f(x)$为在实数域上的函数</p>
+<ol>
+<li><p>当$x$趋近于正无穷, 函数$f(x)$趋近于0, 那么将其称之为右饱和. $\lim \limits_{x \rightarrow +\infty} {f\prime(x) } = 0$</p>
+</li>
+<li><p>当$x$趋近于负无穷, 函数$f(x)$趋近于0, 那么将其称之为左饱和. $\lim \limits_{x \rightarrow -\infty} {f\prime(x) } = 0$</p>
+</li>
+<li><p>当一个函数既满足左饱和又满足右饱和的时候我们就称之为饱和, 典型的函数有Sigmoid, Tanh函数.</p>
+</li>
+<li><p>对于任意的$x$, 如果存在常数$c$, 当$x&gt;c$时, $f(x) \equiv 0$, 则称其为右硬饱和. 相反的, 如果存在常数$c$, 当$x&lt;c$时, $f(x) \equiv 0$, 则称其为左硬饱和. 既满足左硬饱和又满足右硬饱和的我们称这种函数为硬饱和. </p>
+</li>
+<li><p>对于任意的$x$, 如果存在常数$c$, 当$x&gt;c$时, 恒有$f\prime (x)$趋近于0, 则称其为右软饱和, 相反的, 如果存在常数$c$, 当$x&lt;c$时, 恒有$f\prime (x)$趋近于0,则称其为左软饱和. 既满足左软饱和又满足右软饱和的我们称这种函数为软饱和. </p>
+</li>
+</ol>
+<h2 id="线性关系-函数-amp-非线性关系-函数"><a href="#线性关系-函数-amp-非线性关系-函数" class="headerlink" title="线性关系(函数) &amp; 非线性关系(函数)"></a>线性关系(函数) &amp; 非线性关系(函数)</h2><p>在现代学术界中, 线性关系一词存在2种不同的含义.</p>
+<ol>
+<li><p>若某数学函数或数量关系的函数图形呈现为一条直线或线段, 那么这种关系就是一种线性的关系.<br> 定义: $f(x)$是个只拥有一个变数的一阶多项式函数, 即是可以表示为 $ f(x)=kx+b $的形式(其中$k,b$为常数).</p>
+</li>
+<li><p>在代数学和数学分析学中, 如果一种运算同时满足特定的”加性”和”齐性”, 则称这种运算是线性的.<br> 定义: $f(x)$具有两个性质: 可加性 $f(x+t) = f(x) + f(t)$, 一次齐次性 $f(mx) = mf(x)$</p>
+</li>
+</ol>
+<p>非线性关系(函数)是指除了线性关系(函数)以为的其他函数, 指数函数, 对数函数, 幂函数, 多项式函数等. </p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/强化学习/" rel="tag"># 强化学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/13/cross-entropy/" rel="next" title="信息熵 - 条件熵 - 交叉熵">
+                <i class="fa fa-chevron-left"></i> 信息熵 - 条件熵 - 交叉熵
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/30/Python-excel/" rel="prev" title="Python读写Excel">
+                Python读写Excel <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/favicon.jpg" alt="Lxx">
+            
+              <p class="site-author-name" itemprop="name">Lxx</p>
+              <p class="site-description motion-element" itemprop="description">舒之弥四海，卷之不赢怀。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/Hypnotised1" title="GitHub &rarr; https://github.com/Hypnotised1" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/LxxHHxx" title="Twitter &rarr; https://twitter.com/LxxHHxx" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#sigmoid"><span class="nav-number">1.</span> <span class="nav-text">sigmoid</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#表达式"><span class="nav-number">1.1.</span> <span class="nav-text">表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#曲线"><span class="nav-number">1.2.</span> <span class="nav-text">曲线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">1.3.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tanh"><span class="nav-number">2.</span> <span class="nav-text">tanh</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#表达式-1"><span class="nav-number">2.1.</span> <span class="nav-text">表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#曲线-1"><span class="nav-number">2.2.</span> <span class="nav-text">曲线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点-1"><span class="nav-number">2.3.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReLU"><span class="nav-number">3.</span> <span class="nav-text">ReLU</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#表达式-2"><span class="nav-number">3.1.</span> <span class="nav-text">表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#曲线-2"><span class="nav-number">3.2.</span> <span class="nav-text">曲线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点-2"><span class="nav-number">3.3.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReLU的变种版"><span class="nav-number">4.</span> <span class="nav-text">ReLU的变种版</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Leaky-ReLU"><span class="nav-number">4.1.</span> <span class="nav-text">Leaky ReLU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ELU-Exponential-Linear-Units"><span class="nav-number">4.2.</span> <span class="nav-text">ELU(Exponential Linear Units)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#softmax"><span class="nav-number">5.</span> <span class="nav-text">softmax</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本概念"><span class="nav-number">6.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#函数饱和"><span class="nav-number">6.1.</span> <span class="nav-text">函数饱和</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性关系-函数-amp-非线性关系-函数"><span class="nav-number">6.2.</span> <span class="nav-text">线性关系(函数) &amp; 非线性关系(函数)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lxx</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.5.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.5.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://www-funnyphd-com.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'https://funnyphd.com/2019/10/14/activation-functions/';
+        this.page.identifier = '2019/10/14/activation-functions/';
+        this.page.title = '常用激活函数- Sigmoid - Tanh - ReLU - Softmax';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://www-funnyphd-com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase-firestore.js"></script>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.1/bluebird.core.min.js"></script>
+  
+  <script>
+    (function () {
+
+      firebase.initializeApp({
+        apiKey: 'AIzaSyDWeym6CpMx912otTrgtGN1TFXXp_PzmSw',
+        projectId: 'funnyphd-ec889'
+      })
+
+      function getCount(doc, increaseCount) {
+        //increaseCount will be false when not in article page
+
+        return doc.get().then(function (d) {
+          var count
+          if (!d.exists) { //has no data, initialize count
+            if (increaseCount) {
+              doc.set({
+                count: 1
+              })
+              count = 1
+            }
+            else {
+              count = 0
+            }
+          }
+          else { //has data
+            count = d.data().count
+            if (increaseCount) {
+              if (!(window.localStorage && window.localStorage.getItem(title))) { //if first view this article
+                doc.set({ //increase count
+                  count: count + 1
+                })
+                count++
+              }
+            }
+          }
+          if (window.localStorage && increaseCount) { //mark as visited
+            localStorage.setItem(title, true)
+          }
+
+          return count
+        })
+      }
+
+      function appendCountTo(el) {
+        return function (count) {
+          $(el).append(
+            $('<span>').addClass('post-visitors-count').append(
+              $('<span>').addClass('post-meta-divider').text('|')
+            ).append(
+              $('<span>').addClass('post-meta-item-icon').append(
+                $('<i>').addClass('fa fa-users')
+              )
+              ).append($('<span>').text('阅读次数 ' + count))
+          )
+        }
+      }
+
+      var db = firebase.firestore()
+      var articles = db.collection('articles')
+
+      //https://hexo.io/docs/variables.html
+      var isPost = '常用激活函数- Sigmoid - Tanh - ReLU - Softmax'.length > 0
+      var isArchive = '' === 'true'
+      var isCategory = ''.length > 0
+      var isTag = ''.length > 0
+
+      if (isPost) { //is article page
+        var title = '常用激活函数- Sigmoid - Tanh - ReLU - Softmax'
+        var doc = articles.doc(title)
+
+        getCount(doc, true).then(appendCountTo($('.post-meta')))
+      }
+      else if (!isArchive && !isCategory && !isTag) { //is index page
+        var titles = [] //array to titles
+
+        var postsstr = '' //if you have a better way to get titles of posts, please change it
+        eval(postsstr)
+
+        var promises = titles.map(function (title) {
+          return articles.doc(title)
+        }).map(function (doc) {
+          return getCount(doc)
+        })
+        Promise.all(promises).then(function (counts) {
+          var metas = $('.post-meta')
+          counts.forEach(function (val, idx) {
+            appendCountTo(metas[idx])(val)
+          })
+        })
+      }
+    })()
+  </script>
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=6.5.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=6.5.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+
+array和asarray的区别是什么
+
+array 将输入数据(列表、元组、数组或者其他类型数据)转换为ndarray
+asarray 将输入数据转化为ndarray,如果输入本身为ndarray就不进行复制
+
+
+zeros、ones和empty区别
+ones_like, zeros_like
+
+ndarray.astype(np.float24)
+
+python深层拷贝和浅拷贝
+
+
+pyplot
+pylab

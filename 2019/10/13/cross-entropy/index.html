@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="google-site-verification" content="Jb_bjwF9Vf0LkWaFJ-iBd1dcohPoVP9XEjxZ3DKsPpI">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.5.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon0.5-0.5.jpg?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon0.5-0.5.jpg?v=6.5.0">
+
+
+  <link rel="mask-icon" href="/images/favicon.jpg?v=6.5.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.5.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="信息社会, 我们在日常生活中一直谈论信息, 但是信息这个概念有些抽象. 有时候说信息多, 或者信息少, 但是很难说清楚到底是多少. 比如一本50多万字的中文书&amp;lt;史记&amp;gt;到底有多少信息量, 很难进行定量的表示. 直到1948年, 香农(Claude Shannon)提出了信息熵的概念, 才解决了信息度量问题.">
+<meta name="keywords" content="数学概念">
+<meta property="og:type" content="article">
+<meta property="og:title" content="信息熵 - 条件熵 - 交叉熵">
+<meta property="og:url" content="https://funnyphd.com/2019/10/13/cross-entropy/index.html">
+<meta property="og:site_name" content="Hypnotised">
+<meta property="og:description" content="信息社会, 我们在日常生活中一直谈论信息, 但是信息这个概念有些抽象. 有时候说信息多, 或者信息少, 但是很难说清楚到底是多少. 比如一本50多万字的中文书&amp;lt;史记&amp;gt;到底有多少信息量, 很难进行定量的表示. 直到1948年, 香农(Claude Shannon)提出了信息熵的概念, 才解决了信息度量问题.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-13T07:40:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="信息熵 - 条件熵 - 交叉熵">
+<meta name="twitter:description" content="信息社会, 我们在日常生活中一直谈论信息, 但是信息这个概念有些抽象. 有时候说信息多, 或者信息少, 但是很难说清楚到底是多少. 比如一本50多万字的中文书&amp;lt;史记&amp;gt;到底有多少信息量, 很难进行定量的表示. 直到1948年, 香农(Claude Shannon)提出了信息熵的概念, 才解决了信息度量问题.">
+
+
+
+
+
+
+  <link rel="canonical" href="https://funnyphd.com/2019/10/13/cross-entropy/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>信息熵 - 条件熵 - 交叉熵 | Hypnotised</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hypnotised</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://funnyphd.com/2019/10/13/cross-entropy/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lxx">
+      <meta itemprop="description" content="舒之弥四海，卷之不赢怀。">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hypnotised">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">信息熵 - 条件熵 - 交叉熵
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-13 21:22:02" itemprop="dateCreated datePublished" datetime="2019-10-13T21:22:02+08:00">2019-10-13</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/13/cross-entropy/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/10/13/cross-entropy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>信息社会, 我们在日常生活中一直谈论信息, 但是信息这个概念有些抽象. 有时候说信息多, 或者信息少, 但是很难说清楚到底是多少. 比如一本50多万字的中文书&lt;史记&gt;到底有多少信息量, 很难进行定量的表示. 直到1948年, 香农(Claude Shannon)提出了信息熵的概念, 才解决了信息度量问题.</p>
+<a id="more"></a>
+<h1 id="信息熵"><a href="#信息熵" class="headerlink" title="信息熵"></a>信息熵</h1><p>一条信息的信息量和它的不确定性有着直接关系. 举个例子, 一个有5个字的句子(你吃饭了吗?)和有17个字的句子(我刚在市中心的CBD内吃完, 吃的牛排.)包含的信息量正常情况下是不一样的, 包括17个字的句子所包含的信息量应该大于5个字的. </p>
+<p>如何对信息进行量化呢? 再来举个例子, 2018年的世界杯, 大家都很关心谁是冠军. 假如我错过了看世界杯, 赛后问一个知道比赛结果的观众”哪只球队是冠军”? 他不愿意直接告诉我, 而是让我去猜, 并且猜一次收费1元. 那么我需要猜测多少次才能知道谁是冠军呢? 我可以把球队编为1-32号, 然后采用二分法进行猜测, 直至猜到结果. 这样我只需要五次就可以知道谁是冠军. 所以, 谁是世界杯冠军这条消息的信息量只值5元钱.</p>
+<p>香农采用”比特(Bit)”来度量信息量. 上面的例子中, 这条消息的信息量是5比特. ($log_2^32 =5$) 世界杯每只球队的夺冠概率是不一致的, 我们在进行猜测时需要有侧重点的进行猜测, 因此”谁是世界杯冠军”的信息量比5比特少. 香农指出, 它的准确信息量应该是<br>$H=-(p_1 \cdot log p_1 + p_2 \cdot log p_2 + \cdots + p_{32} \cdot log p_{32} )$ 其中, $p_1, p_2, \cdots , p_{32}$分别是这32支球队夺冠的概率. 香农把$H$称之为信息熵(Entropy), 单位比特. 对于任意一个随机变量X(比如得冠军的球队), 它的熵为</p>
+<p>$H(X) = - \sum _{x \in X} P(x) logP(x)$</p>
+<p>变量的不确定性越大, 熵也就越大.</p>
+<h1 id="条件熵"><a href="#条件熵" class="headerlink" title="条件熵"></a>条件熵</h1><p>假定X和Y是两个随机变量, X是我们需要了解的. 假定我们知道X的随机分布P(X), 那么也就知道了X的熵</p>
+<p>$H(X) = -\sum _{x \in X} P(x) \cdot log P(x)$</p>
+<p>现在假定我们还知道Y的一些情况, 包括它和X一起出现的概率(在数学上称之为联合概率分布), 以及在Y取不同值的前提下X的概率分布(在数学上称之为条件概率分布). 那么定义在Y条件下X的条件熵为</p>
+<p>$H(X|Y) = - \sum _{x \in X, y\in Y} P(x,y) log P(x|y)$</p>
+<h1 id="交叉熵-相对熵-Kullback-Leibler-Divergence"><a href="#交叉熵-相对熵-Kullback-Leibler-Divergence" class="headerlink" title="交叉熵(相对熵) (Kullback-Leibler Divergence)"></a>交叉熵(相对熵) (Kullback-Leibler Divergence)</h1><p>交叉熵可以用来衡量相关性, 它用来衡量两个取值为正数的函数的相似性, 定义如下</p>
+<p>$KL(f(x) || g(x)) = \sum _{x\in X} f(x) \cdot log \frac{f(x)}{g(x)}$</p>
+<p>我们不需要关注公式本身, 只需要记住下面三条结论就可以:</p>
+<ol>
+<li>对于两个完全相同的函数, 它们的交叉熵为0.</li>
+<li>交叉熵越大, 两个函数差异越大; 反之, 交叉熵越小, 两个函数差异越小.</li>
+<li>对于概率分布或者概率密度函数, 如果取值均大于0, 交叉熵可以度量两个随机分布的差异性.</li>
+</ol>
+<h2 id="注意-本文中的对数均是以2为底-log-log-2"><a href="#注意-本文中的对数均是以2为底-log-log-2" class="headerlink" title="注意: 本文中的对数均是以2为底. $log==log_2$"></a>注意: 本文中的对数均是以2为底. $log==log_2$</h2>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数学概念/" rel="tag"># 数学概念</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/11/python-random/" rel="next" title="随机数">
+                <i class="fa fa-chevron-left"></i> 随机数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/14/activation-functions/" rel="prev" title="常用激活函数- Sigmoid - Tanh - ReLU - Softmax">
+                常用激活函数- Sigmoid - Tanh - ReLU - Softmax <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/favicon.jpg" alt="Lxx">
+            
+              <p class="site-author-name" itemprop="name">Lxx</p>
+              <p class="site-description motion-element" itemprop="description">舒之弥四海，卷之不赢怀。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/Hypnotised1" title="GitHub &rarr; https://github.com/Hypnotised1" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/LxxHHxx" title="Twitter &rarr; https://twitter.com/LxxHHxx" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#信息熵"><span class="nav-number">1.</span> <span class="nav-text">信息熵</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#条件熵"><span class="nav-number">2.</span> <span class="nav-text">条件熵</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#交叉熵-相对熵-Kullback-Leibler-Divergence"><span class="nav-number">3.</span> <span class="nav-text">交叉熵(相对熵) (Kullback-Leibler Divergence)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#注意-本文中的对数均是以2为底-log-log-2"><span class="nav-number">3.1.</span> <span class="nav-text">注意: 本文中的对数均是以2为底. $log==log_2$</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lxx</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.5.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.5.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://www-funnyphd-com.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'https://funnyphd.com/2019/10/13/cross-entropy/';
+        this.page.identifier = '2019/10/13/cross-entropy/';
+        this.page.title = '信息熵 - 条件熵 - 交叉熵';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://www-funnyphd-com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase-firestore.js"></script>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.1/bluebird.core.min.js"></script>
+  
+  <script>
+    (function () {
+
+      firebase.initializeApp({
+        apiKey: 'AIzaSyDWeym6CpMx912otTrgtGN1TFXXp_PzmSw',
+        projectId: 'funnyphd-ec889'
+      })
+
+      function getCount(doc, increaseCount) {
+        //increaseCount will be false when not in article page
+
+        return doc.get().then(function (d) {
+          var count
+          if (!d.exists) { //has no data, initialize count
+            if (increaseCount) {
+              doc.set({
+                count: 1
+              })
+              count = 1
+            }
+            else {
+              count = 0
+            }
+          }
+          else { //has data
+            count = d.data().count
+            if (increaseCount) {
+              if (!(window.localStorage && window.localStorage.getItem(title))) { //if first view this article
+                doc.set({ //increase count
+                  count: count + 1
+                })
+                count++
+              }
+            }
+          }
+          if (window.localStorage && increaseCount) { //mark as visited
+            localStorage.setItem(title, true)
+          }
+
+          return count
+        })
+      }
+
+      function appendCountTo(el) {
+        return function (count) {
+          $(el).append(
+            $('<span>').addClass('post-visitors-count').append(
+              $('<span>').addClass('post-meta-divider').text('|')
+            ).append(
+              $('<span>').addClass('post-meta-item-icon').append(
+                $('<i>').addClass('fa fa-users')
+              )
+              ).append($('<span>').text('阅读次数 ' + count))
+          )
+        }
+      }
+
+      var db = firebase.firestore()
+      var articles = db.collection('articles')
+
+      //https://hexo.io/docs/variables.html
+      var isPost = '信息熵 - 条件熵 - 交叉熵'.length > 0
+      var isArchive = '' === 'true'
+      var isCategory = ''.length > 0
+      var isTag = ''.length > 0
+
+      if (isPost) { //is article page
+        var title = '信息熵 - 条件熵 - 交叉熵'
+        var doc = articles.doc(title)
+
+        getCount(doc, true).then(appendCountTo($('.post-meta')))
+      }
+      else if (!isArchive && !isCategory && !isTag) { //is index page
+        var titles = [] //array to titles
+
+        var postsstr = '' //if you have a better way to get titles of posts, please change it
+        eval(postsstr)
+
+        var promises = titles.map(function (title) {
+          return articles.doc(title)
+        }).map(function (doc) {
+          return getCount(doc)
+        })
+        Promise.all(promises).then(function (counts) {
+          var metas = $('.post-meta')
+          counts.forEach(function (val, idx) {
+            appendCountTo(metas[idx])(val)
+          })
+        })
+      }
+    })()
+  </script>
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=6.5.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=6.5.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
