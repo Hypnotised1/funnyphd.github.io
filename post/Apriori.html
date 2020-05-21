@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon0.5-0.5.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon0.5-0.5.jpg">
+  <link rel="mask-icon" href="/images/favicon.jpg" color="#222">
+  <meta name="google-site-verification" content="Jb_bjwF9Vf0LkWaFJ-iBd1dcohPoVP9XEjxZ3DKsPpI">
+  <meta name="baidu-site-verification" content="kKLXwVlluL8HyVn7">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"funnyphd.com","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="算法介绍Apriori算法是R.Agrawal和R.Srikant于1994年提出的为布尔关联规则挖掘频繁项集的原创性算法。算法基于这样的事实：算法使用频繁项集性质的先验知识。Apriori使用一种称作逐层搜索的迭代方法，$k$项集用于探索$(k+1)$项集。首先，通过扫描数据库，累积每个项的计数，并收集满足最小支持度的项，找出频繁$1$项集的集合，该集合记做$L_1$。然后，$L_1$用于找频繁">
+<meta name="keywords" content="数据挖掘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Apriori算法">
+<meta property="og:url" content="https://funnyphd.com/post/Apriori.html">
+<meta property="og:site_name" content="油区的波斯猫">
+<meta property="og:description" content="算法介绍Apriori算法是R.Agrawal和R.Srikant于1994年提出的为布尔关联规则挖掘频繁项集的原创性算法。算法基于这样的事实：算法使用频繁项集性质的先验知识。Apriori使用一种称作逐层搜索的迭代方法，$k$项集用于探索$(k+1)$项集。首先，通过扫描数据库，累积每个项的计数，并收集满足最小支持度的项，找出频繁$1$项集的集合，该集合记做$L_1$。然后，$L_1$用于找频繁">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://funnyphd.com/resources/images/Apriori算法.jpg">
+<meta property="og:updated_time" content="2020-05-21T08:25:07.450Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Apriori算法">
+<meta name="twitter:description" content="算法介绍Apriori算法是R.Agrawal和R.Srikant于1994年提出的为布尔关联规则挖掘频繁项集的原创性算法。算法基于这样的事实：算法使用频繁项集性质的先验知识。Apriori使用一种称作逐层搜索的迭代方法，$k$项集用于探索$(k+1)$项集。首先，通过扫描数据库，累积每个项的计数，并收集满足最小支持度的项，找出频繁$1$项集的集合，该集合记做$L_1$。然后，$L_1$用于找频繁">
+<meta name="twitter:image" content="https://funnyphd.com/resources/images/Apriori算法.jpg">
+
+<link rel="canonical" href="https://funnyphd.com/post/Apriori.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Apriori算法 | 油区的波斯猫</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?facc89af2c48fb94d3d82548f3010f68";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">油区的波斯猫</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">波斯猫</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://funnyphd.com/post/Apriori.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/favicon.jpg">
+      <meta itemprop="name" content="Lxx">
+      <meta itemprop="description" content="分享有趣好玩的知识.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="油区的波斯猫">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Apriori算法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-10-03 16:22:02" itemprop="dateCreated datePublished" datetime="2018-10-03T16:22:02+08:00">2018-10-03</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="firestore-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/post/Apriori.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="/post/Apriori.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="算法介绍"><a href="#算法介绍" class="headerlink" title="算法介绍"></a>算法介绍</h1><p>Apriori算法是R.Agrawal和R.Srikant于1994年提出的为布尔关联规则挖掘频繁项集的原创性算法。算法基于这样的事实：算法使用频繁项集性质的先验知识。Apriori使用一种称作逐层搜索的迭代方法，$k$项集用于探索$(k+1)$项集。首先，通过扫描数据库，累积每个项的计数，并收集满足最小支持度的项，找出频繁$1$项集的集合，该集合记做$L_1$。然后，$L_1$用于找频繁$2$项集的集合$L_2$，$L_2$用于找$L_3$，如此下去，直到不能再找到频繁$k$项集。<br><a id="more"></a><br><strong>Apriori性质：频繁项集的所有非空子集也必须是频繁的。</strong></p>
+<p>利用Apriori算法找出频繁项集需要两个步骤，连接和剪枝</p>
+<h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>为找$L_k$，通过将$L_{k-1}$与自身连接产生候选$k$项集的集合。该候选项集合记作$C_k$。设$l_1$和$l_2$是$L_{k-1}$中的项集。记号$l_i[j]$表示$l_i$中的第$j$项（例如，$l_1[k-2]$表示$l_1$的倒数第二项）。为方便起见，Apriori假定事务或项集中的项按照字典次序排序。对于$(k-1)$项集$l_1$，意味将项排序，使$l_i[1]&lt;l_i[2]&lt;\cdots&lt;l_i[k-1]$。执行连接$L_{k-1}\bowtie L_{k-1}$，如果它们的前$(k-2)$个项相同的话，那么$L_{k-1}$的元素是可连接的（即，如果$$(l_1[1]=l_2[1])\wedge(l_1[2]=l_2[2])\wedge\cdots\wedge(l_1[k-2]=l_2[k-2])\wedge(l_1[k-1]&lt;l_2[k-1])$$，那么$L_{k-1}$的元素$l_1$和$l_2$是可连接的）。条件$(l_1[k-1]&lt;l_2[k-1])$仅仅是保证不产生重复。连接$l_1$和$l_2$产生的结果项集是$l_1[1],l_1[2],\cdots,l_1[k-1],l_2[k-1]$。</p>
+<h2 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h2><p>$C_k$是$L_k$的超集，也就是说，$C_k$的成员可以是频繁也可以不是频繁的，但所有的频繁$k$项集都包含在$C_k$中。扫描数据库，确定$C_k$中每个候选的计数，从而确定$L_k$（即根据定义，计数值不小于最小支持度计数的所有候选是频繁的，从而属于$L_k$）。然而，$C_k$可能很大，这样所涉及的计算量就很大。为了压缩$C_k$，可使用Apriori性质。任何非频繁的$(k-1)$项集都不是频繁$k$项集的子集。因此，如果候选$k$项集的$(k-1)$项子集不在$L_{k-1}$中，则该候选也不可能是频繁的，从而可以从$C_k$中删除。这种子集测试可以使用所有频繁项集的散列树快速完成。</p>
+<h1 id="实例演示"><a href="#实例演示" class="headerlink" title="实例演示"></a>实例演示</h1><p>下表为AllElectronics某分店的实物数据</p>
+<table>
+<thead>
+<tr>
+<th>TID</th>
+<th style="text-align:left">商品ID的列表 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T100</td>
+<td style="text-align:left">I1,I2,I5</td>
+</tr>
+<tr>
+<td>T200</td>
+<td style="text-align:left">I2,I4</td>
+</tr>
+<tr>
+<td>T300</td>
+<td style="text-align:left">I2,I3</td>
+</tr>
+<tr>
+<td>T400</td>
+<td style="text-align:left">I1,I2,I4</td>
+</tr>
+<tr>
+<td>T500</td>
+<td style="text-align:left">I1,I3</td>
+</tr>
+<tr>
+<td>T600</td>
+<td style="text-align:left">I2,I3</td>
+</tr>
+<tr>
+<td>T700</td>
+<td style="text-align:left">I1,I3</td>
+</tr>
+<tr>
+<td>T800</td>
+<td style="text-align:left">I1,I2,I3,I5</td>
+</tr>
+<tr>
+<td>T900</td>
+<td style="text-align:left">I1,I2,I3 </td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p><img src="/resources/images/Apriori算法.jpg" alt="候选项集合频繁项集的产生，最小支持度计数为2" title="候选项集合频繁项集的产生，最小支持度计数为2"></p>
+<ol>
+<li>在算法的每一次迭代，每项都是候选1项集的集合$C_1$的成员。算法简单地扫描所有的事务，对每项的出现次数计数。</li>
+<li>假定要求最小支持度计数为2，即$min\_sup=2$（这里谈论的是绝对支持度，使用的是支持度计数，对应的相对支持度为$2/9=22\%$）。可以确定频繁$1$项集的集合$L_1$。它由满足最小支持度的候选$1$项集组成。在我们的例子中，$C_1$中所有候选都满足最小支持度。</li>
+<li>为发现频繁$2$项集的集合$L_2$，算法使用$L_1\bowtie L_1$产生候选$2$项集的集合$C_2$。$C_2$由$C_{|L_1|}^{2}$个$2$项集组成。<br><strong>注意：在剪枝步，没有候选从$C_2$中删除，因为这些候选的每个子集都是频繁的。</strong></li>
+<li>继续扫描$D$中的事务，计算$C_2$中每个候选项集的支持度计数。</li>
+<li>确定频繁$2$项集的集合$L_2$，它由满足最小支持度的$C_2$中的候选$2$项集组成。</li>
+<li>候选$3$项集的集合$C_3$的产生详细在下图中。从连接步，首先令<br>$C_3=L_2\bowtie L_2 \{ \{I1,I2,I3 \} , \{ I1,I2,I5 \} , \{ I1,I3,I5 \} , \{ I2,I3,I4 \} , \{ I2,I3,I5 \} , \{ I2,I4,I5 \} \}$<br>根据Apriori性质，频繁项集的所有子集也必须是频繁的，可以确定后4个候选不可能是频繁的。因此，把它们从$C_3$中删除，这样，在此后扫描$D$确定$L_3$时就不必再求它们的计数值。<br><strong>注意：由于Apriori算法使用逐层搜索技术，给定候选$k$项集，只需要检查它们的$k-1$个子集是否频繁。</strong><blockquote>
+<p>a. 连接：<br>$C_3=L_2\bowtie L_2 = \{ \{ I1,I2 \} , \{ I1,I3 \} , \{ I1,I5 \} , \{ I2,I3 \} , \{ I2,I4 \} , \{ I2,I5 \} \}  \bowtie$<br>$ \{ \{ I1,I2 \} , \{ I1,I3 \} , \{ I1,I5 \} , \{ I2,I3 \} , \{ I2,I4 \} , \{ I2,I5 \} \} $<br>$= \{ \{ I1,I2,I3 \} , \{ I1,I2,I5 \} , \{ I1,I3,I5 \} , \{ I2,I3,I4 \} , \{ I2,I3,I5 \} \{ I2,I4,I5 \}  \} $<br>b.剪枝：使用Apriori性质剪枝，频繁项集的所有非空子集也必须是非频繁的。</p>
+<ul>
+<li>$\{ I1,I2,I3 \}$的$2$项子集是$\{ I1,I2\} , \{ I1,I3\}$ 和 $ \{ I1,I2\}$。$\{ I1,I2,I3 \}$的所有$2$项子集都是$L_2$的元素。因此，$\{ I1,I2,I3 \}$保留在$C_3$中。</li>
+<li>$\{ I1,I2,I5 \}$的$2$项子集是$\{ I1,I2\} , \{ I1,I5\}$ 和 $ \{ I2,I5\}$。$\{ I1,I2,I5 \}$的所有$2$项子集都是$L_2$的元素。因此，$\{ I1,I2,I5 \}$保留在$C_3$中。</li>
+<li>$\{ I1,I3,I5 \}$的$2$项子集是$\{ I1,I3\} , \{ I1,I5\}$ 和 $ \{ I3,I5\}$。$\{ I3,I5 \}$不是$L_2$的元素。因而不是频繁的。因此，从$C_3$中删除，$\{ I1,I3,I5 \}$保留在中。<br>其他的也都是一样，通过这样的步骤去判断。<br>最终$C_3=\{ \{ I1,I2,I3 \} , \{ I1,I2,I5 \} \}$</li>
+</ul>
+</blockquote>
+</li>
+<li>扫描$D$中的事务确定$L_3$，它由满足最小支持度的$C_3$中的候选$3$项集组成。</li>
+<li>算法使用$L_3\bowtie L_3$产生候选$4$项集的集合$C_4$。尽管连接产生结果$\{ \{ I1,I2,I3,I5 \} \}$，但是这个项集被剪去，因为它的子集$\{ I2,I3,I5 \}$不是频繁的。这样，$C_4=\emptyset$，算法终止，找出了所有的频繁项集。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/post/HexoBlog.html" rel="prev" title="使用hexo+github搭建blog">
+      <i class="fa fa-chevron-left"></i> 使用hexo+github搭建blog
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/post/PolicyValue.html" rel="next" title="策略迭代和值迭代">
+      策略迭代和值迭代 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#算法介绍"><span class="nav-number">1.</span> <span class="nav-text">算法介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#连接"><span class="nav-number">1.1.</span> <span class="nav-text">连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#剪枝"><span class="nav-number">1.2.</span> <span class="nav-text">剪枝</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例演示"><span class="nav-number">2.</span> <span class="nav-text">实例演示</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Lxx" src="/images/favicon.jpg">
+  <p class="site-author-name" itemprop="name">Lxx</p>
+  <div class="site-description" itemprop="description">分享有趣好玩的知识.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0h5cG5vdGlzZWQx" title="GitHub → https://github.com/Hypnotised1"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly90d2l0dGVyLmNvbS9MeHhISHh4" title="Twitter → https://twitter.com/LxxHHxx"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">鲁ICP备 - 20018464号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lxx</span>
+</div>
+
+        
+
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey   : 'AIzaSyDWeym6CpMx912otTrgtGN1TFXXp_PzmSw',
+      projectId: 'funnyphd-ec889'
+    });
+
+    function getCount(doc, increaseCount) {
+      // IncreaseCount will be false when not in article page
+      return doc.get().then(d => {
+        var count = 0;
+        if (!d.exists) { // Has no data, initialize count
+          if (increaseCount) {
+            doc.set({
+              count: 1
+            });
+            count = 1;
+          }
+        } else { // Has data
+          count = d.data().count;
+          if (increaseCount) {
+            // If first view this article
+            doc.set({ // Increase count
+              count: count + 1
+            });
+            count++;
+          }
+        }
+
+        return count;
+      });
+    }
+
+    function appendCountTo(el) {
+      return count => {
+        el.innerText = count;
+      }
+    }
+  </script>
+  <script>
+    (function() {
+      var db = firebase.firestore();
+      var articles = db.collection('articles');
+
+      if (CONFIG.page.isPost) { // Is article page
+        var title = document.querySelector('.post-title').innerText.trim();
+        var doc = articles.doc(title);
+        var increaseCount = CONFIG.hostname === location.hostname;
+        if (localStorage.getItem(title)) {
+          increaseCount = false;
+        } else {
+          // Mark as visited
+          localStorage.setItem(title, true);
+        }
+        getCount(doc, increaseCount).then(appendCountTo(document.querySelector('.firestore-visitors-count')));
+      } else if (CONFIG.page.isHome) { // Is index page
+        var promises = [...document.querySelectorAll('.post-title')].map(element => {
+          var title = element.innerText.trim();
+          var doc = articles.doc(title);
+          return getCount(doc);
+        });
+        Promise.all(promises).then(counts => {
+          var metas = document.querySelectorAll('.firestore-visitors-count');
+          counts.forEach((val, idx) => {
+            appendCountTo(metas[idx])(val);
+          });
+        });
+      }
+    })();
+  </script>
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://www-funnyphd-com.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://funnyphd.com/post/Apriori.html";
+    this.page.identifier = "/post/Apriori.html";
+    this.page.title = "Apriori算法";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://www-funnyphd-com.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon0.5-0.5.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon0.5-0.5.jpg">
+  <link rel="mask-icon" href="/images/favicon.jpg" color="#222">
+  <meta name="google-site-verification" content="Jb_bjwF9Vf0LkWaFJ-iBd1dcohPoVP9XEjxZ3DKsPpI">
+  <meta name="baidu-site-verification" content="kKLXwVlluL8HyVn7">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"funnyphd.com","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文以Onedrive为例, 介绍Windows上进行云盘同步的命令mklink.">
+<meta name="keywords" content="工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="云盘同步命令之mklink">
+<meta property="og:url" content="https://funnyphd.com/post/Mklink.html">
+<meta property="og:site_name" content="油区的波斯猫">
+<meta property="og:description" content="本文以Onedrive为例, 介绍Windows上进行云盘同步的命令mklink.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://funnyphd.com/resources/images/mklink.png">
+<meta property="og:image" content="https://funnyphd.com/resources/images/mklink-summ.png">
+<meta property="og:updated_time" content="2020-05-21T08:25:29.581Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="云盘同步命令之mklink">
+<meta name="twitter:description" content="本文以Onedrive为例, 介绍Windows上进行云盘同步的命令mklink.">
+<meta name="twitter:image" content="https://funnyphd.com/resources/images/mklink.png">
+
+<link rel="canonical" href="https://funnyphd.com/post/Mklink.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>云盘同步命令之mklink | 油区的波斯猫</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?facc89af2c48fb94d3d82548f3010f68";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">油区的波斯猫</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">波斯猫</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://funnyphd.com/post/Mklink.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/favicon.jpg">
+      <meta itemprop="name" content="Lxx">
+      <meta itemprop="description" content="分享有趣好玩的知识.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="油区的波斯猫">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          云盘同步命令之mklink
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-05 22:40:32" itemprop="dateCreated datePublished" datetime="2020-01-05T22:40:32+08:00">2020-01-05</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="firestore-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/post/Mklink.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="/post/Mklink.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文以Onedrive为例, 介绍Windows上进行云盘同步的命令mklink. </p>
+<a id="more"></a>
+<h1 id="mklink"><a href="#mklink" class="headerlink" title="mklink"></a>mklink</h1><p>mklink是windows系统下创建符号链接的命令, 他可以像创建快捷方式一样创建文件或目录的链接, 但是这两者有着显著的区别.<br>首先在命令(需要管理员权限)行下执行<code>mklink</code>命令, 有三种模式, <code>/D</code>, <code>/H</code>和 <code>/J</code></p>
+<p><img src="/resources/images/mklink.png" alt="mklink" title="mklink"></p>
+<p>符号链接: 其也被称作软链接, 是一类特殊的文件. 其包含有一条以绝对路径或者相对路径的形式指向其它文件或者目录的引用. 注意, 符号链接是文件引用.</p>
+<p><code>/d</code>: 创建目录符号链接, 默认为目录, 文件则无法打开</p>
+<p><code>mklink /d softlinkD sourceDict</code></p>
+<p>硬链接: 其与软链接相对, 是一个文件的复制, 当修改一个文件时, 其余所有与之进行硬链接的文件均得到修改. 删除一个时, 其余不会改变. 在移动链接文件时, 如果在同一盘符上进行移动, 可以继续保持链接, 否则无法维系链接, 而且在不同盘符上无法建立硬链接.(在C盘创建的所有硬链接, 如果将其移动至其他盘, 则链接中断.)</p>
+<p><code>/h</code>: 创建硬链接, 其只能针对文件, 无法针对文件夹, 当Target为文件夹时会拒绝访问.</p>
+<p><code>mklink /h hardlink.txt source.txt</code></p>
+<p><code>/j</code>: 创建目录联接, 默认为目录, 文件则无法打开. 与<code>/d</code>的区别是, 使用<code>/d</code>命令创建的链接可以复制剪切与移动, 使用<code>/j</code>命令创建的无法剪切和移动. 本命令常用来进行Onedrive等云盘的同步.</p>
+<p><code>mklink /j junction sourceDict</code></p>
+<p>各个命令的具体区别如图所示(其中图中第一行<code>/j</code>和<code>/d</code>关于删除链接的操作是不对的, Junction与Symbolic link一样, Target remains unchanged.). 本图来自<span class="exturl" data-url="aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvU3ltYm9saWNfbGluayNOVEZTX3N5bWJvbGljX2xpbms=">维基百科<i class="fa fa-external-link-alt"></i></span></p>
+<p><img src="/resources/images/mklink-summ.png" alt="mklink" title="mklink"></p>
+<h1 id="Onedrive-同步"><a href="#Onedrive-同步" class="headerlink" title="Onedrive 同步"></a>Onedrive 同步</h1><p>登录好自己的Onedrive, 并设置本地文件夹. 使用下面的命令将Onedrive中的文件夹创建一个Junction link至本地文件夹</p>
+<p><code>mklink /j D:\aaa D:\OneDrive\funnyphd\source</code></p>
+<p>其中, <code>D:\OneDrive\funnyphd\source</code>为Onedrive在本地的文件夹(源文件), <code>D:\aaa</code>为链接名称. 我们可以通过直接修改aaa目录下的文件来实现文件的自动上传. 如果换台机器, 需要重做上面的操作, 即可实现本地文件与云盘文件同步.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/工具/" rel="tag"># 工具</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/post/PythonExcel.html" rel="prev" title="Python读写Excel">
+      <i class="fa fa-chevron-left"></i> Python读写Excel
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#mklink"><span class="nav-number">1.</span> <span class="nav-text">mklink</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Onedrive-同步"><span class="nav-number">2.</span> <span class="nav-text">Onedrive 同步</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Lxx" src="/images/favicon.jpg">
+  <p class="site-author-name" itemprop="name">Lxx</p>
+  <div class="site-description" itemprop="description">分享有趣好玩的知识.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0h5cG5vdGlzZWQx" title="GitHub → https://github.com/Hypnotised1"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly90d2l0dGVyLmNvbS9MeHhISHh4" title="Twitter → https://twitter.com/LxxHHxx"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">鲁ICP备 - 20018464号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lxx</span>
+</div>
+
+        
+
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey   : 'AIzaSyDWeym6CpMx912otTrgtGN1TFXXp_PzmSw',
+      projectId: 'funnyphd-ec889'
+    });
+
+    function getCount(doc, increaseCount) {
+      // IncreaseCount will be false when not in article page
+      return doc.get().then(d => {
+        var count = 0;
+        if (!d.exists) { // Has no data, initialize count
+          if (increaseCount) {
+            doc.set({
+              count: 1
+            });
+            count = 1;
+          }
+        } else { // Has data
+          count = d.data().count;
+          if (increaseCount) {
+            // If first view this article
+            doc.set({ // Increase count
+              count: count + 1
+            });
+            count++;
+          }
+        }
+
+        return count;
+      });
+    }
+
+    function appendCountTo(el) {
+      return count => {
+        el.innerText = count;
+      }
+    }
+  </script>
+  <script>
+    (function() {
+      var db = firebase.firestore();
+      var articles = db.collection('articles');
+
+      if (CONFIG.page.isPost) { // Is article page
+        var title = document.querySelector('.post-title').innerText.trim();
+        var doc = articles.doc(title);
+        var increaseCount = CONFIG.hostname === location.hostname;
+        if (localStorage.getItem(title)) {
+          increaseCount = false;
+        } else {
+          // Mark as visited
+          localStorage.setItem(title, true);
+        }
+        getCount(doc, increaseCount).then(appendCountTo(document.querySelector('.firestore-visitors-count')));
+      } else if (CONFIG.page.isHome) { // Is index page
+        var promises = [...document.querySelectorAll('.post-title')].map(element => {
+          var title = element.innerText.trim();
+          var doc = articles.doc(title);
+          return getCount(doc);
+        });
+        Promise.all(promises).then(counts => {
+          var metas = document.querySelectorAll('.firestore-visitors-count');
+          counts.forEach((val, idx) => {
+            appendCountTo(metas[idx])(val);
+          });
+        });
+      }
+    })();
+  </script>
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://www-funnyphd-com.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://funnyphd.com/post/Mklink.html";
+    this.page.identifier = "/post/Mklink.html";
+    this.page.title = "云盘同步命令之mklink";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://www-funnyphd-com.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon0.5-0.5.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon0.5-0.5.jpg">
+  <link rel="mask-icon" href="/images/favicon.jpg" color="#222">
+  <meta name="google-site-verification" content="Jb_bjwF9Vf0LkWaFJ-iBd1dcohPoVP9XEjxZ3DKsPpI">
+  <meta name="baidu-site-verification" content="kKLXwVlluL8HyVn7">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"funnyphd.com","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="maxmax(a, axis=None, out=None, keepdims=np._NoValue)Return the maximum of an array or maximum along an axis.返回array的最大值或者沿axis轴的最大值">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="numpy常用函数">
+<meta property="og:url" content="https://funnyphd.com/post/PythonNumpy.html">
+<meta property="og:site_name" content="油区的波斯猫">
+<meta property="og:description" content="maxmax(a, axis=None, out=None, keepdims=np._NoValue)Return the maximum of an array or maximum along an axis.返回array的最大值或者沿axis轴的最大值">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-05-21T07:34:39.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="numpy常用函数">
+<meta name="twitter:description" content="maxmax(a, axis=None, out=None, keepdims=np._NoValue)Return the maximum of an array or maximum along an axis.返回array的最大值或者沿axis轴的最大值">
+
+<link rel="canonical" href="https://funnyphd.com/post/PythonNumpy.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>numpy常用函数 | 油区的波斯猫</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?facc89af2c48fb94d3d82548f3010f68";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">油区的波斯猫</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">波斯猫</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://funnyphd.com/post/PythonNumpy.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/favicon.jpg">
+      <meta itemprop="name" content="Lxx">
+      <meta itemprop="description" content="分享有趣好玩的知识.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="油区的波斯猫">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          numpy常用函数
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-11-23 22:16:02" itemprop="dateCreated datePublished" datetime="2018-11-23T22:16:02+08:00">2018-11-23</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="firestore-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/post/PythonNumpy.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="/post/PythonNumpy.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="max"><a href="#max" class="headerlink" title="max"></a>max</h1><p>max(a, axis=None, out=None, keepdims=np._NoValue)<br>Return the maximum of an array or maximum along an axis.<br>返回array的最大值或者沿axis轴的最大值</p>
+<a id="more"></a>
+<h2 id="axis参数详解"><a href="#axis参数详解" class="headerlink" title="axis参数详解"></a>axis参数详解</h2><p>np.max(a,axis)表示在axis轴上取得的最值<br>axis的取值范围为[0,len(a.shape))<br>axis也可以是一个元组axis=(0,1)表示在第一个轴和第二个轴相交的空间上取得的最值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a=np.array(</span><br><span class="line">        [[[5., 0., 7., 0.],</span><br><span class="line">        [0., 0., 7., 0.],</span><br><span class="line">        [0., 0., 0., 3.]],</span><br><span class="line"></span><br><span class="line">       [[9., 5., 6., 0.],</span><br><span class="line">        [0., 6., 0., 0.],</span><br><span class="line">        [0., 0., 0., 4.]]])</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; np.max(a,axis=0)</span><br><span class="line">a的shape为(2,3,4),axis为0,表示沿着第一轴方向上的最值,可以得到一个(3,4)的array</span><br><span class="line">array([[9., 5., 7., 0.],</span><br><span class="line">       [0., 6., 7., 0.],</span><br><span class="line">       [0., 0., 0., 4.]])</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; np.max(a,axis=(0,1))</span><br><span class="line">axis为(0,1),表示在第一轴上和第二轴相交空间上的最值,得到一个(4,)的array</span><br><span class="line">array([9., 6., 7., 4.]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; np.max(a,axis=(0,1,2))</span><br><span class="line">则等同于np.max(a)</span><br></pre></td></tr></table></figure>
+<h1 id="where"><a href="#where" class="headerlink" title="where"></a>where</h1><p>where(condition, [x, y])<br>Return elements, either from <code>x</code> or <code>y</code>, depending on <code>condition</code>.If only <code>condition</code> is given, return <code>condition.nonzero()</code>.<br>按照给定<code>condition</code>返回元素<code>x</code>或<code>y</code>.如果只给定<code>condition</code>,则返回<code>condition.nonzero()</code>.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a=np.arange(9).reshape(3,3)</span><br><span class="line">&gt;&gt;&gt; np.where(a&gt;3) </span><br><span class="line">#输出为一个二维array,第一行表示a中的行坐标,第二行表示a中列坐标(可延伸至多维)</span><br><span class="line">#a[1,1]=4, a[1,2]=5, a[2,0]=6....a[2,2]=8</span><br><span class="line">(array([1, 1, 2, 2, 2], dtype=int64), array([1, 2, 0, 1, 2], dtype=int64))</span><br><span class="line">&gt;&gt;&gt; a&gt;3</span><br><span class="line">array([[False, False, False],</span><br><span class="line">       [False,  True,  True],</span><br><span class="line">       [ True,  True,  True]])</span><br><span class="line">&gt;&gt;&gt; (a&gt;3).nonzero()</span><br><span class="line">(array([1, 1, 2, 2, 2], dtype=int64), array([1, 2, 0, 1, 2], dtype=int64))</span><br><span class="line"></span><br><span class="line">如果同时给定这三个参数,x和y可以为任意类型的数据,str、tuple、list、int</span><br><span class="line">如果是多维数据其shape必须和condition有一定的联系(进行替换的时候不能有歧义)</span><br><span class="line">&gt;&gt;&gt; np.where(a&gt;3,0,-1)</span><br><span class="line">array([[-1, -1, -1],</span><br><span class="line">       [-1,  0,  0],</span><br><span class="line">       [ 0,  0,  0]])</span><br><span class="line">符合条件的为0,不符合条件为-1</span><br><span class="line"></span><br><span class="line">如果x和y为list,tuple</span><br><span class="line">&gt;&gt;&gt; x=np.arange(-1,-10,-1).reshape(3,3)</span><br><span class="line">&gt;&gt;&gt; np.where(a&gt;3,x,(0))</span><br><span class="line">array([[ 0,  0,  0],</span><br><span class="line">       [ 0, -5, -6],</span><br><span class="line">       [-7, -8, -9]])</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; x=np.arange(-1,-4,-1)</span><br><span class="line">&gt;&gt;&gt; np.where(a&gt;3,x,(0))</span><br><span class="line">array([[ 0,  0,  0],</span><br><span class="line">       [ 0, -2, -3],</span><br><span class="line">       [-1, -2, -3]])</span><br><span class="line"></span><br><span class="line">x和y是多维数据时需要有一定联系,方便进行选择,否则报错</span><br><span class="line">&gt;&gt;&gt; x=np.arange(-1,-7,-1)</span><br><span class="line">&gt;&gt;&gt; np.where(a&gt;3,x,(0))</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">ValueError: operands could not be broadcast together with shapes (3,3) (6,) ()</span><br></pre></td></tr></table></figure></p>
+<h1 id="cumsum"><a href="#cumsum" class="headerlink" title="cumsum"></a>cumsum</h1><p>cumsum(a, axis=None, dtype=None, out=None)<br>Return the cumulative sum of the elements along a given axis.<br>返回给定轴上元素累计和.也可以称作累加函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a=np.arange(6).reshape(2,3)</span><br><span class="line">array([[0, 1, 2],</span><br><span class="line">       [3, 4, 5]])</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; np.cumsum(a)</span><br><span class="line">array([ 0,  1,  3,  6, 10, 15], dtype=int32)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; np.cumsum(a,axis=0)</span><br><span class="line">array([[0, 1, 2],</span><br><span class="line">       [3, 5, 7]], dtype=int32)</span><br><span class="line">&gt;&gt;&gt; np.cumsum(a,axis=1)</span><br><span class="line">array([[ 0,  1,  3],</span><br><span class="line">       [ 3,  7, 12]], dtype=int32)</span><br></pre></td></tr></table></figure></p>
+<h1 id="cumprod"><a href="#cumprod" class="headerlink" title="cumprod"></a>cumprod</h1><p>cumprod(a, axis=None, dtype=None, out=None):<br>Return the cumulative product of elements along a given axis.<br>返回给定轴上元素累计积.也可以称作累积函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a=np.arange(1,7).reshape(2,3)</span><br><span class="line">array([[1, 2, 3],</span><br><span class="line">       [4, 5, 6]])</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; np.cumprod(a)</span><br><span class="line">array([  1,   2,   6,  24, 120, 720], dtype=int32)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; np.cumprod(a,axis=0)</span><br><span class="line">array([[ 1,  2,  3],</span><br><span class="line">       [ 4, 10, 18]], dtype=int32)</span><br><span class="line">&gt;&gt;&gt; np.cumprod(a,axis=1)</span><br><span class="line">array([[  1,   2,   6],</span><br><span class="line">       [  4,  20, 120]], dtype=int32)</span><br></pre></td></tr></table></figure>
+<p>unique</p>
+<h1 id="asarray"><a href="#asarray" class="headerlink" title="asarray"></a>asarray</h1><p>asarray(a, dtype=None, order=None)<br>Convert the input to an array.<br>将输入转化为array<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a=[1,2,3,4]</span><br><span class="line">&gt;&gt;&gt; a=np.asarray(a)</span><br><span class="line">array([1, 2, 3, 4])</span><br><span class="line">&gt;&gt;&gt; np.asarray(a)</span><br><span class="line">array(&apos;123&apos;, dtype=&apos;&lt;U3&apos;)</span><br></pre></td></tr></table></figure></p>
+<h1 id="errstate"><a href="#errstate" class="headerlink" title="errstate"></a>errstate</h1><p>np.errstate(**kwargs)<br>kwargs:{divide,over,under,invalid}<br>关键字参数。有效的关键字是可能的浮点异常。每个关键字都应该有一个字符串值来定义特定错误的处理。可能的值为{‘ignore’,’warn’,’raise’,’call’,’print’,’log’}。</p>
+<h1 id="transpose"><a href="#transpose" class="headerlink" title="transpose"></a>transpose</h1><p>transpose(a, axes=None)<br>Permute the dimensions of an array.<br>将矩阵a进行转置, 其中当a为一维时不起作用, 转置物理意义为切换坐标轴, 将x轴换为y轴, y轴换为x轴.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>aa=np.arange(4).reshape(2,2)<br>aa<br>array([[0, 1],<br>       [2, 3]])<br>bb =aa.transpose()<br>array([[0, 2],<br>       [1, 3]])</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>#aa.transpose() &lt;===&gt; aa.transpose(1,0), 将0轴(数据下标)换为1轴, 将1轴换为0轴. 如a[0][1] 变换为 bb[1][0]</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>aa=np.arange(27).reshape(-1,3,3)<br>aa<br>array([[[ 0,  1,  2],<br>        [ 3,  4,  5],<br>        [ 6,  7,  8]],</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<pre><code>[[ 9, 10, 11],
+ [12, 13, 14],
+ [15, 16, 17]],
+
+[[18, 19, 20],
+ [21, 22, 23],
+ [24, 25, 26]]])
+</code></pre><blockquote>
+<blockquote>
+<blockquote>
+<p>bb=aa.transpose()<br>array([[[ 0,  9, 18],<br>        [ 3, 12, 21],<br>        [ 6, 15, 24]],</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<pre><code>[[ 1, 10, 19],
+ [ 4, 13, 22],
+ [ 7, 16, 25]],
+
+[[ 2, 11, 20],
+ [ 5, 14, 23],
+ [ 8, 17, 26]]])
+</code></pre><p>#此时 aa.transpose() &lt;===&gt; aa.transpose(2,1,0), 将0轴换为2轴, 1轴不变, 2轴换为0轴. 如 aa[2][1][0] 变换为 bb[0][1][2]</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>bb= aa.transpose(2,0,1)<br>array([[[ 0,  3,  6],<br>        [ 9, 12, 15],<br>        [18, 21, 24]],</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<pre><code>[[ 1,  4,  7],
+ [10, 13, 16],
+ [19, 22, 25]],
+
+[[ 2,  5,  8],
+ [11, 14, 17],
+ [20, 23, 26]]])
+</code></pre><p>#同理, aa[2][0][1] == bb[1][2][0]</p>
+<h1 id="clip"><a href="#clip" class="headerlink" title="clip"></a>clip</h1><p>clip(a, a_min, a_max, out=None)<br>    Clip (limit) the values in an array.</p>
+<p>将a限制在a_min, a_max内, </p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>a = np.arange(10)<br>np.clip(a, 1, 8)<br>array([1, 1, 2, 3, 4, 5, 6, 7, 8, 8])<br>np.clip(a, 1, 8) &lt;===&gt; b=np.where(a&lt;1, 1, a) 和 b =np.where(b&gt;8,8,b)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h1 id="设置精度"><a href="#设置精度" class="headerlink" title="设置精度"></a>设置精度</h1><p>np.set_printoptions(precision=2)</p>
+<h1 id="np-squeeze"><a href="#np-squeeze" class="headerlink" title="np.squeeze"></a>np.squeeze</h1><h1 id="empty"><a href="#empty" class="headerlink" title="empty"></a>empty</h1><p>随机初始化数组</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/post/PythonMatlab.html" rel="prev" title="python调用MATLAB">
+      <i class="fa fa-chevron-left"></i> python调用MATLAB
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/post/Lambda.html" rel="next" title="匿名函数 lambda">
+      匿名函数 lambda <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#max"><span class="nav-number">1.</span> <span class="nav-text">max</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#axis参数详解"><span class="nav-number">1.1.</span> <span class="nav-text">axis参数详解</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#where"><span class="nav-number">2.</span> <span class="nav-text">where</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cumsum"><span class="nav-number">3.</span> <span class="nav-text">cumsum</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cumprod"><span class="nav-number">4.</span> <span class="nav-text">cumprod</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#asarray"><span class="nav-number">5.</span> <span class="nav-text">asarray</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#errstate"><span class="nav-number">6.</span> <span class="nav-text">errstate</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#transpose"><span class="nav-number">7.</span> <span class="nav-text">transpose</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#clip"><span class="nav-number">8.</span> <span class="nav-text">clip</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置精度"><span class="nav-number">9.</span> <span class="nav-text">设置精度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#np-squeeze"><span class="nav-number">10.</span> <span class="nav-text">np.squeeze</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#empty"><span class="nav-number">11.</span> <span class="nav-text">empty</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Lxx" src="/images/favicon.jpg">
+  <p class="site-author-name" itemprop="name">Lxx</p>
+  <div class="site-description" itemprop="description">分享有趣好玩的知识.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0h5cG5vdGlzZWQx" title="GitHub → https://github.com/Hypnotised1"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly90d2l0dGVyLmNvbS9MeHhISHh4" title="Twitter → https://twitter.com/LxxHHxx"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">鲁ICP备 - 20018464号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lxx</span>
+</div>
+
+        
+
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey   : 'AIzaSyDWeym6CpMx912otTrgtGN1TFXXp_PzmSw',
+      projectId: 'funnyphd-ec889'
+    });
+
+    function getCount(doc, increaseCount) {
+      // IncreaseCount will be false when not in article page
+      return doc.get().then(d => {
+        var count = 0;
+        if (!d.exists) { // Has no data, initialize count
+          if (increaseCount) {
+            doc.set({
+              count: 1
+            });
+            count = 1;
+          }
+        } else { // Has data
+          count = d.data().count;
+          if (increaseCount) {
+            // If first view this article
+            doc.set({ // Increase count
+              count: count + 1
+            });
+            count++;
+          }
+        }
+
+        return count;
+      });
+    }
+
+    function appendCountTo(el) {
+      return count => {
+        el.innerText = count;
+      }
+    }
+  </script>
+  <script>
+    (function() {
+      var db = firebase.firestore();
+      var articles = db.collection('articles');
+
+      if (CONFIG.page.isPost) { // Is article page
+        var title = document.querySelector('.post-title').innerText.trim();
+        var doc = articles.doc(title);
+        var increaseCount = CONFIG.hostname === location.hostname;
+        if (localStorage.getItem(title)) {
+          increaseCount = false;
+        } else {
+          // Mark as visited
+          localStorage.setItem(title, true);
+        }
+        getCount(doc, increaseCount).then(appendCountTo(document.querySelector('.firestore-visitors-count')));
+      } else if (CONFIG.page.isHome) { // Is index page
+        var promises = [...document.querySelectorAll('.post-title')].map(element => {
+          var title = element.innerText.trim();
+          var doc = articles.doc(title);
+          return getCount(doc);
+        });
+        Promise.all(promises).then(counts => {
+          var metas = document.querySelectorAll('.firestore-visitors-count');
+          counts.forEach((val, idx) => {
+            appendCountTo(metas[idx])(val);
+          });
+        });
+      }
+    })();
+  </script>
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://www-funnyphd-com.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://funnyphd.com/post/PythonNumpy.html";
+    this.page.identifier = "/post/PythonNumpy.html";
+    this.page.title = "numpy常用函数";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://www-funnyphd-com.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

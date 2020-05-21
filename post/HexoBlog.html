@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon0.5-0.5.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon0.5-0.5.jpg">
+  <link rel="mask-icon" href="/images/favicon.jpg" color="#222">
+  <meta name="google-site-verification" content="Jb_bjwF9Vf0LkWaFJ-iBd1dcohPoVP9XEjxZ3DKsPpI">
+  <meta name="baidu-site-verification" content="kKLXwVlluL8HyVn7">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"funnyphd.com","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="环境搭建配置Github安装Git下载Git ,选择自己合适的版本。我是在windows下搭建的，所以我选的是windows安装完成后，在开始菜单里找到”Git”-&amp;gt;”Git Bash”，弹出命令行窗口，就说明安装成功">
+<meta name="keywords" content="blog搭建">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用hexo+github搭建blog">
+<meta property="og:url" content="https://funnyphd.com/post/HexoBlog.html">
+<meta property="og:site_name" content="油区的波斯猫">
+<meta property="og:description" content="环境搭建配置Github安装Git下载Git ,选择自己合适的版本。我是在windows下搭建的，所以我选的是windows安装完成后，在开始菜单里找到”Git”-&amp;gt;”Git Bash”，弹出命令行窗口，就说明安装成功">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://funnyphd.com/resources/images/git-bash.png">
+<meta property="og:image" content="https://funnyphd.com/resources/images/github-ssh.png">
+<meta property="og:image" content="https://funnyphd.com/resources/images/git-ssh-success.png">
+<meta property="og:image" content="https://funnyphd.com/resources/images/create-repository.png">
+<meta property="og:image" content="https://funnyphd.com/resources/images/duoshuo-create-site.png">
+<meta property="og:image" content="https://funnyphd.com/resources/images/analytics-baidu-id.png">
+<meta property="og:image" content="https://funnyphd.com/resources/images/swiftype-create-id.png">
+<meta property="og:updated_time" content="2020-05-21T08:25:25.067Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用hexo+github搭建blog">
+<meta name="twitter:description" content="环境搭建配置Github安装Git下载Git ,选择自己合适的版本。我是在windows下搭建的，所以我选的是windows安装完成后，在开始菜单里找到”Git”-&amp;gt;”Git Bash”，弹出命令行窗口，就说明安装成功">
+<meta name="twitter:image" content="https://funnyphd.com/resources/images/git-bash.png">
+
+<link rel="canonical" href="https://funnyphd.com/post/HexoBlog.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>使用hexo+github搭建blog | 油区的波斯猫</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?facc89af2c48fb94d3d82548f3010f68";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">油区的波斯猫</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">波斯猫</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://funnyphd.com/post/HexoBlog.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/favicon.jpg">
+      <meta itemprop="name" content="Lxx">
+      <meta itemprop="description" content="分享有趣好玩的知识.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="油区的波斯猫">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用hexo+github搭建blog
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-05 10:40:32" itemprop="dateCreated datePublished" datetime="2018-09-05T10:40:32+08:00">2018-09-05</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="firestore-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/post/HexoBlog.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="/post/HexoBlog.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><h2 id="配置Github"><a href="#配置Github" class="headerlink" title="配置Github"></a>配置Github</h2><h3 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h3><p><span class="exturl" data-url="aHR0cDovL3d3dy5naXQtc2NtLmNvbS9kb3dubG9hZC8=">下载Git<i class="fa fa-external-link-alt"></i></span> ,选择自己合适的版本。我是在windows下搭建的，所以我选的是windows<br>安装完成后，在开始菜单里找到”Git”-&gt;”Git Bash”，弹出命令行窗口，就说明安装成功<br><img src="/resources/images/git-bash.png" alt="Git Bash" title="Git Bash"><br><a id="more"></a></p>
+<h3 id="配置ssh"><a href="#配置ssh" class="headerlink" title="配置ssh"></a>配置ssh</h3><p>设置用户名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;Your Name&quot;</span><br><span class="line">$ git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>因为Git是分布式版本控制系统，所以，每个机器都必须自报家门：你的名字和Email地址。你也许会担心，如果有人故意冒充别人怎么办？这个不必担心，首先我们相信大家都是善良无知的群众，其次，真的有冒充的也是有办法可查的。<br>注意<code>git config</code>命令的<code>–global</code>参数，用了这个参数，表示你这台机器上所有的Git仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和Email地址。</p>
+</blockquote>
+<p>查看密钥<br><code>cd ~/.ssh</code>如果没有，则不会有此文件夹，有的话则备份删除</p>
+<p>生成密钥<br><code>$ ssh-keygen -t rsa -C “<span class="exturl" data-url="bWFpbHRvOmVtYWlsQGV4YW1wbGUuY29t">email@example.com<i class="fa fa-external-link-alt"></i></span>“ </code> 按3个回车，密码为空。<br>最后得到了两个文件：id_rsa和id_rsa.pub</p>
+<p>添加密钥到ssh-agent<br><code> $ ssh-add ~/.ssh/id_rsa</code></p>
+<p>登录Github，添加ssh<br>把id_rsa.pub文件里的内容复制到Github中的ssh keys中<br><img src="/resources/images/github-ssh.png" alt="Github ssh" title="Github ssh"></p>
+<p>测试<br><code>$ ssh -T <span class="exturl" data-url="bWFpbHRvOmdpdEBnaXRodWIuY29t">git@github.com<i class="fa fa-external-link-alt"></i></span></code>选择yes，就可以看到你的用户名，则说明配置成功<br><img src="/resources/images/git-ssh-success.png" alt="git-ssh-success" title="配置成功"></p>
+<h3 id="创建Repository"><a href="#创建Repository" class="headerlink" title="创建Repository"></a>创建Repository</h3><p><img src="/resources/images/create-repository.png" alt="create Repository" title="创建Repository"><br><strong>注 :Repository name为 用户名.github.io</strong><br>我已经创建了，所以会有错误的提示。</p>
+<h2 id="配置hexo"><a href="#配置hexo" class="headerlink" title="配置hexo"></a>配置hexo</h2><p>hexo是一款基于Node.js的静态博客框架。</p>
+<h3 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h3><p>安装<span class="exturl" data-url="aHR0cHM6Ly9ub2RlanMub3JnL2VuLw==">Node.js<i class="fa fa-external-link-alt"></i></span>。去官网上下载，直接安装就可以。<br>NPM(Node Package Manager) 是Node.js的包管理器，Node.js中的带有NPM。</p>
+<h3 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h3><h4 id="创建Hexo-项目"><a href="#创建Hexo-项目" class="headerlink" title="创建Hexo 项目"></a>创建<span class="exturl" data-url="aHR0cHM6Ly93d3cubnBtanMuY29tL3BhY2thZ2UvaGV4bw==">Hexo<i class="fa fa-external-link-alt"></i></span> 项目</h4><p>控制台命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure></p>
+<p>查看Hexo版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo version</span><br></pre></td></tr></table></figure></p>
+<p>创建项目(blog)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog</span><br></pre></td></tr></table></figure></p>
+<p>进入项目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd blog</span><br></pre></td></tr></table></figure></p>
+<p>安装依赖包(任何一个项目都要在项目目录下安装依赖包)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure></p>
+<p>启动项目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure></p>
+<p>目录结构如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">|─── .deploy       #需要部署的文件</span><br><span class="line">|─── node_modules  #Hexo插件</span><br><span class="line">|─── public        #生成的静态网页文件</span><br><span class="line">|─── scaffolds     #模板</span><br><span class="line">|─── source        #博客正文和其他源文件，404、favicon、CNAME 都应该放在这里</span><br><span class="line">|   |─── _drafts   #草稿</span><br><span class="line">|   |─── _posts    #文章</span><br><span class="line">|─── themes        #主题</span><br><span class="line">|─── _config.yml   #全局配置文件</span><br><span class="line">|─── package.json</span><br></pre></td></tr></table></figure></p>
+<p>用浏览器打开<span class="exturl" data-url="aHR0cDovL2xvY2FsaG9zdDo0MDAwLw==">http://localhost:4000/<i class="fa fa-external-link-alt"></i></span> 或者 <span class="exturl" data-url="aHR0cDovLzEyNy4wLjAuMTo0MDAwLw==">http://127.0.0.1:4000/<i class="fa fa-external-link-alt"></i></span> 就可以看到网页。<br>如果可以访问这个网页，就说明hexo搭建成功。</p>
+<p>hexo常用命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hexo init [folder] #新建一个网站，如果没有设置folder，hexo默认在目前的文件夹建立网站</span><br><span class="line">hexo new [layout] &lt;title&gt; #新建一篇文章。如果没有设置layout的话，默认使用 _config.yml 中的default_layout参数代替，默认为post。</span><br><span class="line">hexo generate #生成静态文件。参数-d(--deploy文件生成后立即部署网站)、-w(--watch监视文件变动)</span><br><span class="line">hexo publish [layout] &lt;filename&gt; #发布草稿</span><br><span class="line">hexo server #启动服务器。参数-p(--port 重设端口)、-s(--static 只使用静态文件)、-l(--log 启动日志记录，或者覆盖格式记录)</span><br><span class="line">hexo deploy #部署网站。参数 -g(--generate 部署网站之前，需要预先生成静态文件)</span><br><span class="line">hexo clean #清除缓存文件(db.json)和已生成的静态文件(public)</span><br><span class="line">hexo list &lt;type&gt; #列出网站资料</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>关于<code>hexo new [layout] &lt;title&gt; </code>中的layout<br>hexo有三种默认布局<code>post</code>,<code>page</code>和<code>draft</code>,它们分别对应不同的路径而您自定义的其他布局和<code>post</code> 相同,都将储存到<code>source/_posts</code> 文件夹.</p>
+</blockquote>
+<h4 id="定制Hexo"><a href="#定制Hexo" class="headerlink" title="定制Hexo"></a>定制Hexo</h4><p>Hexo 有两份主要的配置文件（_config.yml），一份位于站点根目录下，另一份位于主题目录下。<br>为了描述方便，在以下说明中，将前者称为 站点配置文件，后者称为 主题配置文件。</p>
+<p><strong>注意：配置文件中的冒号”:”后面至少有一个空格,否则会报错.<span class="exturl" data-url="aHR0cDovL3d3dy55YW1sLm9yZy8=">YAML<i class="fa fa-external-link-alt"></i></span>语法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line"># Hexo Configuration</span><br><span class="line">## Docs: http://hexo.io/docs/configuration.html</span><br><span class="line">## Source: https://github.com/hexojs/hexo/</span><br><span class="line"></span><br><span class="line"># Site</span><br><span class="line"></span><br><span class="line">title: ShareKnowledge  #标题</span><br><span class="line">subtitle: #副标题</span><br><span class="line">description: 船头爱茶包......有人爱茶包 #描述</span><br><span class="line">author: ShareKl #作者</span><br><span class="line">language: zh-Hans #语言 汉语</span><br><span class="line">timezone:</span><br><span class="line"># header</span><br><span class="line">avatar: /resources/head.jpg #头像信息 ，resources 在source目录下</span><br><span class="line"></span><br><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</span><br><span class="line">## url 在本地测试时，可以为空</span><br><span class="line">url: http://sharekl.github.io/</span><br><span class="line">root: /</span><br><span class="line">permalink: :year/:month/:day/:title/ #文章链接格式</span><br><span class="line">permalink_defaults:</span><br><span class="line"></span><br><span class="line"># Directory</span><br><span class="line">source_dir: source #源文件目录</span><br><span class="line">public_dir: public #生成的网页文件目录</span><br><span class="line">tag_dir: tags #标签目录</span><br><span class="line">archive_dir: archives #归档目录</span><br><span class="line">category_dir: categories #分类目录</span><br><span class="line">code_dir: downloads/code</span><br><span class="line">i18n_dir: :lang</span><br><span class="line">skip_render:</span><br><span class="line"></span><br><span class="line"># Writing</span><br><span class="line">new_post_name: :title.md # File name of new posts</span><br><span class="line">default_layout: post</span><br><span class="line">titlecase: false # Transform title into titlecase</span><br><span class="line">external_link: true # Open external links in new tab</span><br><span class="line">filename_case: 0</span><br><span class="line">render_drafts: false</span><br><span class="line">post_asset_folder: false</span><br><span class="line">relative_link: false</span><br><span class="line">future: true</span><br><span class="line">highlight: #语法高亮</span><br><span class="line">  enable: true</span><br><span class="line">  line_number: true #行号</span><br><span class="line">  auto_detect: true</span><br><span class="line">  tab_replace:</span><br><span class="line"></span><br><span class="line"># Category &amp; Tag</span><br><span class="line">default_category: uncategorized</span><br><span class="line">category_map:</span><br><span class="line">tag_map:</span><br><span class="line"># Archives</span><br><span class="line">##2: 开启分页</span><br><span class="line">##1: 禁用分页</span><br><span class="line">##0: 全部禁用</span><br><span class="line">archive: 2</span><br><span class="line">category: 2</span><br><span class="line">tag: 2</span><br><span class="line"># Server #本地服务器</span><br><span class="line">port: 4000 #端口号</span><br><span class="line">server_ip: localhost #IP 地址</span><br><span class="line">logger: false</span><br><span class="line">logger_format: dev</span><br><span class="line"></span><br><span class="line"># Date / Time format</span><br><span class="line">## Hexo uses Moment.js to parse and display date</span><br><span class="line">## You can customize the date format as defined in</span><br><span class="line">## http://momentjs.com/docs/#/displaying/format/</span><br><span class="line">date_format: YYYY-MM-DD</span><br><span class="line">time_format: HH:mm:ss</span><br><span class="line"></span><br><span class="line"># Pagination</span><br><span class="line">## Set per_page to 0 to disable pagination</span><br><span class="line">per_page: 10</span><br><span class="line">pagination_dir: page</span><br><span class="line"></span><br><span class="line">#下文详细解释 拓展插件、社交系统和主题设置</span><br><span class="line"># Extensions 拓展插件 </span><br><span class="line">##duoshuo_shortname  多说插件</span><br><span class="line">duoshuo_shortname: xxxxxxxxxxxxxxxxxxx</span><br><span class="line">##baidu_analytics  百度统计</span><br><span class="line">baidu_analytics: xxxxxxxxxxxxxxxxxxx</span><br><span class="line">##swiftype_key 搜索</span><br><span class="line">swiftype_key: xxxxxxxxxxxxxxxxxxx</span><br><span class="line">## Social links 社交系统</span><br><span class="line">social:</span><br><span class="line">  github:</span><br><span class="line">   href: https://github.com/ShareKl</span><br><span class="line">   img: /resources/logo/github.png</span><br><span class="line">  douban: </span><br><span class="line">    href: http://www.douban.com/people/sharekl/</span><br><span class="line">    img: /resources/logo/douban.png</span><br><span class="line">  weibo: </span><br><span class="line">   href: http://weibo.com/shareklg</span><br><span class="line">   img: /resources/logo/sinaweibo.png</span><br><span class="line">   </span><br><span class="line"> </span><br><span class="line">## Plugins: http://hexo.io/plugins/</span><br><span class="line">plugins:</span><br><span class="line">- hexo-generator-feed</span><br><span class="line">## Themes: http://hexo.io/themes/</span><br><span class="line">theme: next  ##主题设置 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## title, chinese available</span><br><span class="line">##links_title: Links</span><br><span class="line">## links</span><br><span class="line">##links:</span><br><span class="line">## MacTalk: http://macshuo.com/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#此部分只是用来部署的，在本地测试无需修改</span><br><span class="line"># Deployment 将ShaerKl换成自己的github的用户名</span><br><span class="line">## Docs: http://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/ShareKl/ShareKl.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p><strong>修改主题</strong><br>我用的是<span class="exturl" data-url="aHR0cDovL25vdGVzLmlpc3NuYW4uY29tLw==">NexT主题<i class="fa fa-external-link-alt"></i></span>。<span class="exturl" data-url="aHR0cDovL3RoZW1lLW5leHQuaWlzc25hbi5jb20v">NexT帮助<i class="fa fa-external-link-alt"></i></span></p>
+<p>下载主题<br>使用Git终端在终端窗口下，定位到 Hexo 站点目录下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd your-hexo-site</span><br><span class="line">$ git clone https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure></p>
+<p>启用NexT主题<br>克隆/下载 完成后，打开 站点配置文件，找到 <code>theme</code> 字段，并将其值更改为 <code>next</code></p>
+<p>主题设定<br>选择Scheme<br>NexT 通过 Scheme 提供主题中的主题。 Mist 是 NexT 的第一款 Scheme。启用 Mist 仅需在 主题配置文件 中将 #scheme: Mist 前面的 # 注释去掉即可。</p>
+<p>语言设置<br>编辑站点配置文件，将 language 设置成你所需要的语言<br><code>language: zh-Hans</code></p>
+<p>头像设置<br>编辑 站点配置文件，新增字段 avatar， 值设置成头像的链接地址。<br>头像设置示例：<br><code> avatar: <span class="exturl" data-url="aHR0cDovL3NoYXJla2wuZ2l0aHViLmlvL3Jlc291cmNlcy9oZWFkLmpwZw==">http://sharekl.github.io/resources/head.jpg<i class="fa fa-external-link-alt"></i></span> </code><br><code> avatar: /resources/avatar.jpg </code></p>
+<p><strong>拓展插件</strong><br><span class="exturl" data-url="aHR0cDovL2R1b3NodW8uY29tLw==">多说<i class="fa fa-external-link-alt"></i></span>评论系统</p>
+<blockquote>
+<p>登录后在首页选择 “我要安装”。<br>创建站点，填写站点相关信息。多说域名 这一栏填写的即是你的 duoshuo_shortname，如图：<br><img src="/resources/images/duoshuo-create-site.png" alt="多说评论" title="多说评论"><br>创建站点完成后在 站点配置文件 中新增 duoshuo_shortname 字段，值设置成上一步中的值。</p>
+</blockquote>
+<p><span class="exturl" data-url="aHR0cDovL3RvbmdqaS5iYWlkdS5jb20vd2ViL3dlbGNvbWUvbG9naW4=">百度统计<i class="fa fa-external-link-alt"></i></span></p>
+<blockquote>
+<p>登录 百度统计，定位到站点的代码获取页面<br>复制 hm.js? 后面那串统计脚本 id，如：<br><img src="/resources/images/analytics-baidu-id.png" alt="百度统计" title="百度统计"><br>编辑站点配置文件，新增字段 baidu_analytics 字段，值设置成你的百度统计脚本 id。</p>
+</blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly9zd2lmdHlwZS5jb20v">Swiftype 搜索<i class="fa fa-external-link-alt"></i></span></p>
+<blockquote>
+<p>前往 Swiftype 注册页面，注册一个新账户。<br>注册完成后，创建一个新的搜索引擎，并按照提示完成创建步骤。<br>搜索引擎创建完成后，在菜单中选择 Integrate -&gt; Install Search 开启搜索定制，安装步骤完成定制。最后一步记得点击 Active 按钮。<br>返回定制引擎的第二个步骤 INSTALL CODE，复制出你的 swiftype_key。<br><img src="/resources/images/swiftype-create-id.png" alt="Swiftype 搜索" title="Swiftype 搜索"><br>编辑站点配置文件，新增字段 swiftype_key，值设置成第四步中赋值出来的 key</p>
+</blockquote>
+<p><strong>Social links 社交系统</strong><br>原主题的社交系统是不同于我这个社交系统的。<span class="exturl" data-url="aHR0cDovL25vdGVzLmlpc3NuYW4uY29tLw==">原主题网站<i class="fa fa-external-link-alt"></i></span>   <span class="exturl" data-url="aHR0cDovL3NoYXJla2wuZ2l0aHViLmlvLw==">我的博客网站<i class="fa fa-external-link-alt"></i></span><br>所以要修改主题的布局文件，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">social:</span><br><span class="line">  github:</span><br><span class="line">   href: https://github.com/ShareKl</span><br><span class="line">   img: /resources/logo/github.png</span><br><span class="line">  douban: </span><br><span class="line">    href: http://www.douban.com/people/sharekl/</span><br><span class="line">    img: /resources/logo/douban.png</span><br><span class="line">  weibo: </span><br><span class="line">   href: http://weibo.com/shareklg</span><br><span class="line">   img: /resources/logo/sinaweibo.png</span><br></pre></td></tr></table></figure></p>
+<p>修改themes\next\layout_macro\sidebar.swig<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">原67行&lt;a href=&quot;&#123;&#123; link &#125;&#125;&quot; target=&quot;_blank&quot;&gt;&#123;&#123; name &#125;&#125;&lt;/a&gt;</span><br><span class="line">修改为&lt;a href=&quot;&#123;&#123; link.href &#125;&#125;&quot; target=&quot;_blank&quot; style=&quot;border-bottom: 0px&quot;&gt;&lt;img src=&quot;&#123;&#123; link.img &#125;&#125;&quot;&gt;&lt;/img&gt;&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="部署Hexo到Git"><a href="#部署Hexo到Git" class="headerlink" title="部署Hexo到Git"></a>部署Hexo到Git</h4><p>编辑站点配置文件,把deploy信息配置好<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/ShareKl/ShareKl.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
+<p>ShareKl 为自己的用户名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean #先清空下文件</span><br><span class="line">hexo generate #再生成</span><br><span class="line">hexo d #部署</span><br></pre></td></tr></table></figure></p>
+<h1 id="错误及解决办法"><a href="#错误及解决办法" class="headerlink" title="错误及解决办法"></a>错误及解决办法</h1><h2 id="hexo-ERROR-Deployer-not-found-github"><a href="#hexo-ERROR-Deployer-not-found-github" class="headerlink" title="hexo ERROR Deployer not found: github"></a>hexo ERROR Deployer not found: github</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: github</span><br><span class="line">  repo: https://github.com/ShareKl/ShareKl.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p><code>type: github</code> 部署不成功的话，安装<code>npm install hexo-deployer-git –save</code><br>然后将deploy的type由github修改为git</p>
+<h2 id="执行hexo-d-报错Error-spawn-git-ENOENT"><a href="#执行hexo-d-报错Error-spawn-git-ENOENT" class="headerlink" title="执行hexo d 报错Error: spawn git ENOENT"></a>执行hexo d 报错Error: spawn git ENOENT</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Error: spawn git ENOENT</span><br><span class="line">    at exports._errnoException (util.js:746:11)</span><br><span class="line">    at Process.ChildProcess._handle.onexit (child_process.js:1053:32)</span><br><span class="line">    at child_process.js:1144:20</span><br><span class="line">    at process._tickCallback (node.js:355:11)</span><br></pre></td></tr></table></figure>
+<p>解决方法<br>添加环境变量：C:\Program Files (x86)\Git\bin;C:\Program Files (x86)\Git\libexec\git-core，这样就解决了问题了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/blog搭建/" rel="tag"># blog搭建</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/post/Apriori.html" rel="next" title="Apriori算法">
+      Apriori算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#环境搭建"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Github"><span class="nav-number">1.1.</span> <span class="nav-text">配置Github</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Git"><span class="nav-number">1.1.1.</span> <span class="nav-text">安装Git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置ssh"><span class="nav-number">1.1.2.</span> <span class="nav-text">配置ssh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建Repository"><span class="nav-number">1.1.3.</span> <span class="nav-text">创建Repository</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置hexo"><span class="nav-number">1.2.</span> <span class="nav-text">配置hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-js"><span class="nav-number">1.2.1.</span> <span class="nav-text">Node.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo"><span class="nav-number">1.2.2.</span> <span class="nav-text">Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建Hexo-项目"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">创建Hexo 项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定制Hexo"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">定制Hexo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部署Hexo到Git"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">部署Hexo到Git</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#错误及解决办法"><span class="nav-number">2.</span> <span class="nav-text">错误及解决办法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo-ERROR-Deployer-not-found-github"><span class="nav-number">2.1.</span> <span class="nav-text">hexo ERROR Deployer not found: github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行hexo-d-报错Error-spawn-git-ENOENT"><span class="nav-number">2.2.</span> <span class="nav-text">执行hexo d 报错Error: spawn git ENOENT</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Lxx" src="/images/favicon.jpg">
+  <p class="site-author-name" itemprop="name">Lxx</p>
+  <div class="site-description" itemprop="description">分享有趣好玩的知识.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0h5cG5vdGlzZWQx" title="GitHub → https://github.com/Hypnotised1"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly90d2l0dGVyLmNvbS9MeHhISHh4" title="Twitter → https://twitter.com/LxxHHxx"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">鲁ICP备 - 20018464号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lxx</span>
+</div>
+
+        
+
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey   : 'AIzaSyDWeym6CpMx912otTrgtGN1TFXXp_PzmSw',
+      projectId: 'funnyphd-ec889'
+    });
+
+    function getCount(doc, increaseCount) {
+      // IncreaseCount will be false when not in article page
+      return doc.get().then(d => {
+        var count = 0;
+        if (!d.exists) { // Has no data, initialize count
+          if (increaseCount) {
+            doc.set({
+              count: 1
+            });
+            count = 1;
+          }
+        } else { // Has data
+          count = d.data().count;
+          if (increaseCount) {
+            // If first view this article
+            doc.set({ // Increase count
+              count: count + 1
+            });
+            count++;
+          }
+        }
+
+        return count;
+      });
+    }
+
+    function appendCountTo(el) {
+      return count => {
+        el.innerText = count;
+      }
+    }
+  </script>
+  <script>
+    (function() {
+      var db = firebase.firestore();
+      var articles = db.collection('articles');
+
+      if (CONFIG.page.isPost) { // Is article page
+        var title = document.querySelector('.post-title').innerText.trim();
+        var doc = articles.doc(title);
+        var increaseCount = CONFIG.hostname === location.hostname;
+        if (localStorage.getItem(title)) {
+          increaseCount = false;
+        } else {
+          // Mark as visited
+          localStorage.setItem(title, true);
+        }
+        getCount(doc, increaseCount).then(appendCountTo(document.querySelector('.firestore-visitors-count')));
+      } else if (CONFIG.page.isHome) { // Is index page
+        var promises = [...document.querySelectorAll('.post-title')].map(element => {
+          var title = element.innerText.trim();
+          var doc = articles.doc(title);
+          return getCount(doc);
+        });
+        Promise.all(promises).then(counts => {
+          var metas = document.querySelectorAll('.firestore-visitors-count');
+          counts.forEach((val, idx) => {
+            appendCountTo(metas[idx])(val);
+          });
+        });
+      }
+    })();
+  </script>
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://www-funnyphd-com.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://funnyphd.com/post/HexoBlog.html";
+    this.page.identifier = "/post/HexoBlog.html";
+    this.page.title = "使用hexo+github搭建blog";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://www-funnyphd-com.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon0.5-0.5.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon0.5-0.5.jpg">
+  <link rel="mask-icon" href="/images/favicon.jpg" color="#222">
+  <meta name="google-site-verification" content="Jb_bjwF9Vf0LkWaFJ-iBd1dcohPoVP9XEjxZ3DKsPpI">
+  <meta name="baidu-site-verification" content="kKLXwVlluL8HyVn7">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"funnyphd.com","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="科学上网原理和工具谈到科学上网首先离不开的是GFW(Great Firewall), 如何进行科学上网, 就是通过某种手段使得我们的流量通过(绕过)GFW的审查. 下面详细介绍如何通过(绕过)审查.">
+<meta name="keywords" content="工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="科学上网之SSR搭建教程">
+<meta property="og:url" content="https://funnyphd.com/post/Ssr.html">
+<meta property="og:site_name" content="油区的波斯猫">
+<meta property="og:description" content="科学上网原理和工具谈到科学上网首先离不开的是GFW(Great Firewall), 如何进行科学上网, 就是通过某种手段使得我们的流量通过(绕过)GFW的审查. 下面详细介绍如何通过(绕过)审查.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://funnyphd.com/resources/images/ssr.png">
+<meta property="og:image" content="https://funnyphd.com/resources/images/ssrinitmudbjson.png">
+<meta property="og:image" content="https://funnyphd.com/resources/images/ssrclient.png">
+<meta property="og:image" content="https://funnyphd.com/resources/images/ssrresult.png">
+<meta property="og:image" content="https://funnyphd.com/resources/images/ssrpac.png">
+<meta property="og:image" content="https://funnyphd.com/resources/images/ssrtcping64.png">
+<meta property="og:image" content="https://funnyphd.com/resources/images/google.png">
+<meta property="og:updated_time" content="2020-05-21T08:25:46.959Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="科学上网之SSR搭建教程">
+<meta name="twitter:description" content="科学上网原理和工具谈到科学上网首先离不开的是GFW(Great Firewall), 如何进行科学上网, 就是通过某种手段使得我们的流量通过(绕过)GFW的审查. 下面详细介绍如何通过(绕过)审查.">
+<meta name="twitter:image" content="https://funnyphd.com/resources/images/ssr.png">
+
+<link rel="canonical" href="https://funnyphd.com/post/Ssr.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>科学上网之SSR搭建教程 | 油区的波斯猫</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?facc89af2c48fb94d3d82548f3010f68";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">油区的波斯猫</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">波斯猫</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://funnyphd.com/post/Ssr.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/favicon.jpg">
+      <meta itemprop="name" content="Lxx">
+      <meta itemprop="description" content="分享有趣好玩的知识.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="油区的波斯猫">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          科学上网之SSR搭建教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-11 21:22:02" itemprop="dateCreated datePublished" datetime="2019-10-11T21:22:02+08:00">2019-10-11</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="firestore-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/post/Ssr.html#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="/post/Ssr.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="科学上网原理和工具"><a href="#科学上网原理和工具" class="headerlink" title="科学上网原理和工具"></a>科学上网原理和工具</h1><p>谈到科学上网首先离不开的是<span class="exturl" data-url="aHR0cHM6Ly96aC53aWtpcGVkaWEub3JnL3poLWhhbnMvJUU5JTk4JUIyJUU3JTgxJUFCJUU5JTk1JUJGJUU1JTlGJThF">GFW(Great Firewall)<i class="fa fa-external-link-alt"></i></span>, 如何进行科学上网, 就是通过某种手段使得我们的流量通过(绕过)GFW的审查. 下面详细介绍如何通过(绕过)审查.</p>
+<a id="more"></a>
+<p><img src="/resources/images/ssr.png" alt="原理"></p>
+<p>如图所示, 在大陆访问Google或者Twitter等网站是无法正常访问的, 这是因为我们的流量被GFW检测识别并阻断, 从而导致我们无法正常访问这些网站. 因此我们需要另辟蹊径来绕过GFW的审查机制, 或者将访问Google等网站伪装成其他流量来通过GFW的审查. 图中实线部分为实现科学上网的一种方式, 首先我们需要购买一台境外服务器, 然后将我们的请求发送至该服务器, 这台境外服务器收到我们的请求后转发给相应的服务器(Google, Twitter的服务器). Google收到请求后, 将结果返回至境外服务器, 境外服务器再将结果反馈给我们.</p>
+<p>如何利用境外服务器为我们转发流量并反馈结果呢, 我们利用SSR来实现该操作. 其中常用的工具有SS(shadow-socks), SSR(shadow-socks R) 和 <span class="exturl" data-url="aHR0cHM6Ly93d3cudjJyYXkuY29tLw==">v2ray<i class="fa fa-external-link-alt"></i></span>. (SSR是SS的一个分支(由<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2JyZWFrd2ExMQ==">破娃酱<i class="fa fa-external-link-alt"></i></span>发起, SSR在SS的基础上增加了一些协议的混淆, 更多的加密方式. V2ray则是另外一种科学上网的方式, 有时间再来写该工具的搭建教程.)</p>
+<h1 id="SSR搭建"><a href="#SSR搭建" class="headerlink" title="SSR搭建"></a>SSR搭建</h1><p>SSR分为客户端(ShadowsocksR-win-4.9.2.zip)和服务端(shadowsocksr-manyuser.zip)两部分, 下载链接在百度云盘[1], 搭建过程主要是针对服务端程序进行讲解. shadowsocksr-manyuser.zip为多用户版本, 我们可以仅使用单用户设置, 如需多用户版, 以后再说.</p>
+<ol>
+<li><p>首先将shadowsocksr-manyuser.zip 上传至服务器, 并执行<code>unzip shadowsocksr-manyuser.zip</code>, 切换至shadowsocksr-manyuser目录</p>
+</li>
+<li><p>执行 <code>./initmudbjson.sh</code>, 会自动创建用户, 端口等连接信息.</p>
+</li>
+</ol>
+<p><img src="/resources/images/ssrinitmudbjson.png" alt="连接信息"></p>
+<ol start="3">
+<li><p>执行<code>./logrun.sh</code> 运行该SSR, 使用<code>./tail.sh</code>查看输出日志</p>
+</li>
+<li><p>配置客户端<br>复制连接信息<code>ssr://MTcyLjMxLjM2LjEzNDoxNjA5NjphdXRoX2FlczEyOF9tZDU6YWVzLTEyOC1jdHI6dGxzMS4yX3RpY2tldF9hdXRoOk0weGFOR3MyWjNJ</code>, 并点击<br><img src="/resources/images/ssrclient.png" alt="导入ssr链接"><br>这里注意, 直接拷贝该ssr, 服务器IP为该服务器的本地IP, 而不是公网IP. 因此需要将其修改为公网IP(服务器IP)</p>
+</li>
+</ol>
+<p><img src="/resources/images/ssrresult.png" alt="查看结果"></p>
+<p><img src="/resources/images/ssrpac.png" alt="选择模式"></p>
+<p>PAC模式: 国内网站走本地网络, 速度快, 绝大部分国外网站都走代理.<br>全局模式: 所有网站都走代理, 访问国内网站速度变慢.</p>
+<ol start="5">
+<li>使用Tcping64来检查端口是否开放</li>
+</ol>
+<p>如果输入日志没有报错, 但是无法进行科学上网, 可以测试相应端口是否开放, 如果没有开放, 可以在服务器上开放相关端口. 使用命令为<code>tcping64 IP 端口</code><br><img src="/resources/images/ssrtcping64.png" alt="端口测试]"></p>
+<ol start="6">
+<li>自由遨游</li>
+</ol>
+<p><img src="/resources/images/google.png" alt="Google]"></p>
+<p>[1]链接: <span class="exturl" data-url="aHR0cHM6Ly9wYW4uYmFpZHUuY29tL3MvMUlQLWVYaWF0aFJkUUQ3c0NyTlp2Q1E=">https://pan.baidu.com/s/1IP-eXiathRdQD7sCrNZvCQ<i class="fa fa-external-link-alt"></i></span> 提取码: mhq3</p>
+<h1 id="SSR-用户自定义文件"><a href="#SSR-用户自定义文件" class="headerlink" title="SSR 用户自定义文件"></a>SSR 用户自定义文件</h1><p>pac.txt为PAC(Proxy auto-config)模式下的定义文件, 如果直接编辑该文件比较乱. 在SSR中除了pac.txt可以定义相关链接, 还有一个user-rule.txt文件(没有可以自行创建), 该文件可以让用户自行添加需要使用代理的文件.</p>
+<h1 id="A-line-which-start-with-“-”-is-comment"><a href="#A-line-which-start-with-“-”-is-comment" class="headerlink" title="A line which start with “#” is comment"></a>A line which start with “#” is comment</h1><h1 id="The-new-one-will-overwrite-the-same-item-before"><a href="#The-new-one-will-overwrite-the-same-item-before" class="headerlink" title="The new one will overwrite the same item before"></a>The new one will overwrite the same item before</h1><h1 id="“a-com”-means-“a-com”-only-“-a-com”-means-all-sub-domains-of-“a-com”-only-“-a-com”-means-“-a-com”-amp-“a-com”"><a href="#“a-com”-means-“a-com”-only-“-a-com”-means-all-sub-domains-of-“a-com”-only-“-a-com”-means-“-a-com”-amp-“a-com”" class="headerlink" title="“a.com” means “a.com” only, “.a.com” means all sub domains of “a.com” only, “.a.com” means “.a.com” &amp; “a.com”"></a>“a.com” means “a.com” only, “<em>.a.com” means all sub domains of “a.com” only, “.a.com” means “</em>.a.com” &amp; “a.com”</h1><h1 id="系统代理模式-以及-代理规则"><a href="#系统代理模式-以及-代理规则" class="headerlink" title="系统代理模式 以及 代理规则"></a>系统代理模式 以及 代理规则</h1><p><span class="exturl" data-url="aHR0cHM6Ly9kb3ViaWJhY2t1cC5jb20vM3dlMXF4emotNy5odG1s">https://doubibackup.com/3we1qxzj-7.html<i class="fa fa-external-link-alt"></i></span></p>
+<p>ShadowsocksR目前分两种规则方式，那就是 系统代理模式（PAC、全局，主要解释PAC） 和 代理规则 。</p>
+<p>PAC规则 是根据PAC文件中的黑白地址名单来判断那些网站走代理。也就是判断 流量是否进入客户端。</p>
+<p>当你要访问的网站满足 PAC里的设置，那么浏览器就会向代理服务器也就是客户端发送网站请求数据，这时候我们才进入了ShadowsocksR客户端，接下来我们就进入了代理规则判断环节。</p>
+<p>代理规则 是根据IP判断，按选择的规则来判断进入 客户端的流量是直连还是走代理。</p>
+<p>当你访问 XXX 网站，然后是全局或者满足PAC条件（不满足条件就直接直连访问了，也不会有接下来的代理规则判断了）从而访问 XXX网站的请求数据流量进入了客户端，然后客户端会根据 XXX网站的IP来判断，如下：</p>
+<p>绕过局域网：当IP属于局域网内的，那么SSR客户端就会让流量直连，反之则会让流量走代理（发送到SSR服务端）。<br>绕过局域网和大陆：当IP属于大陆内或局域网的，那么SSR客户端就会让流量直连，反之则会让流量走代理（发送到SSR服务端）。<br>绕过局域网和非大陆：当IP属于大陆外(非大陆IP都算大陆外)或局域网的，那么SSR客户端就会让流量直连，反之则会让流量走代理（发送到SSR服务端）。<br>全局：无论什么情况都直接走代理。<br>这两种判断方式是相互配合使用的，先用系统代理模式来判断是否让数据进入SSR客户端，再用代理规则来判断进入SSR客户端的数据是直连还是走代理。</p>
+<p>代理规则为：绕过局域网，则判断 <span class="exturl" data-url="aHR0cDovL3d3dy5nb29nbGUuY29t">www.google.com<i class="fa fa-external-link-alt"></i></span> 域名的IP是否是局域网IP，然而不是局域网IP，于是走代理。</p>
+<p>代理规则为：绕过局域网和大陆，则判断 <span class="exturl" data-url="aHR0cDovL3d3dy5nb29nbGUuY29t">www.google.com<i class="fa fa-external-link-alt"></i></span> 域名的IP是否是局域网IP 或 大陆IP，然而不是局域网IP或大陆IP，于是走代理。</p>
+<p>代理规则为：绕过局域网和非大陆，则判断 <span class="exturl" data-url="aHR0cDovL3d3dy5nb29nbGUuY29t">www.google.com<i class="fa fa-external-link-alt"></i></span> 域名的IP是否是局域网IP 或 非大陆IP，然而是非大陆IP，于是不走代理，直连。</p>
+<p>代理规则为：全局，不判断 <span class="exturl" data-url="aHR0cDovL3d3dy5nb29nbGUuY29t">www.google.com<i class="fa fa-external-link-alt"></i></span> 域名的IP，直接走代理。</p>
+<h1 id="SSR的面板配置"><a href="#SSR的面板配置" class="headerlink" title="SSR的面板配置"></a>SSR的面板配置</h1><p>未完待续</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/工具/" rel="tag"># 工具</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/post/PythonRandom.html" rel="prev" title="随机数">
+      <i class="fa fa-chevron-left"></i> 随机数
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/post/CrossEntropy.html" rel="next" title="信息熵 - 条件熵 - 交叉熵">
+      信息熵 - 条件熵 - 交叉熵 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#科学上网原理和工具"><span class="nav-number">1.</span> <span class="nav-text">科学上网原理和工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR搭建"><span class="nav-number">2.</span> <span class="nav-text">SSR搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR-用户自定义文件"><span class="nav-number">3.</span> <span class="nav-text">SSR 用户自定义文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A-line-which-start-with-“-”-is-comment"><span class="nav-number">4.</span> <span class="nav-text">A line which start with “#” is comment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-new-one-will-overwrite-the-same-item-before"><span class="nav-number">5.</span> <span class="nav-text">The new one will overwrite the same item before</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#“a-com”-means-“a-com”-only-“-a-com”-means-all-sub-domains-of-“a-com”-only-“-a-com”-means-“-a-com”-amp-“a-com”"><span class="nav-number">6.</span> <span class="nav-text">“a.com” means “a.com” only, “.a.com” means all sub domains of “a.com” only, “.a.com” means “.a.com” &amp; “a.com”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统代理模式-以及-代理规则"><span class="nav-number">7.</span> <span class="nav-text">系统代理模式 以及 代理规则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR的面板配置"><span class="nav-number">8.</span> <span class="nav-text">SSR的面板配置</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Lxx" src="/images/favicon.jpg">
+  <p class="site-author-name" itemprop="name">Lxx</p>
+  <div class="site-description" itemprop="description">分享有趣好玩的知识.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0h5cG5vdGlzZWQx" title="GitHub → https://github.com/Hypnotised1"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly90d2l0dGVyLmNvbS9MeHhISHh4" title="Twitter → https://twitter.com/LxxHHxx"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">鲁ICP备 - 20018464号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lxx</span>
+</div>
+
+        
+
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey   : 'AIzaSyDWeym6CpMx912otTrgtGN1TFXXp_PzmSw',
+      projectId: 'funnyphd-ec889'
+    });
+
+    function getCount(doc, increaseCount) {
+      // IncreaseCount will be false when not in article page
+      return doc.get().then(d => {
+        var count = 0;
+        if (!d.exists) { // Has no data, initialize count
+          if (increaseCount) {
+            doc.set({
+              count: 1
+            });
+            count = 1;
+          }
+        } else { // Has data
+          count = d.data().count;
+          if (increaseCount) {
+            // If first view this article
+            doc.set({ // Increase count
+              count: count + 1
+            });
+            count++;
+          }
+        }
+
+        return count;
+      });
+    }
+
+    function appendCountTo(el) {
+      return count => {
+        el.innerText = count;
+      }
+    }
+  </script>
+  <script>
+    (function() {
+      var db = firebase.firestore();
+      var articles = db.collection('articles');
+
+      if (CONFIG.page.isPost) { // Is article page
+        var title = document.querySelector('.post-title').innerText.trim();
+        var doc = articles.doc(title);
+        var increaseCount = CONFIG.hostname === location.hostname;
+        if (localStorage.getItem(title)) {
+          increaseCount = false;
+        } else {
+          // Mark as visited
+          localStorage.setItem(title, true);
+        }
+        getCount(doc, increaseCount).then(appendCountTo(document.querySelector('.firestore-visitors-count')));
+      } else if (CONFIG.page.isHome) { // Is index page
+        var promises = [...document.querySelectorAll('.post-title')].map(element => {
+          var title = element.innerText.trim();
+          var doc = articles.doc(title);
+          return getCount(doc);
+        });
+        Promise.all(promises).then(counts => {
+          var metas = document.querySelectorAll('.firestore-visitors-count');
+          counts.forEach((val, idx) => {
+            appendCountTo(metas[idx])(val);
+          });
+        });
+      }
+    })();
+  </script>
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://www-funnyphd-com.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://funnyphd.com/post/Ssr.html";
+    this.page.identifier = "/post/Ssr.html";
+    this.page.title = "科学上网之SSR搭建教程";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://www-funnyphd-com.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
