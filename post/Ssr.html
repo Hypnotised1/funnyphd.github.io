@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://funnyphd.com/resources/images/ssrpac.png">
 <meta property="og:image" content="https://funnyphd.com/resources/images/ssrtcping64.png">
 <meta property="og:image" content="https://funnyphd.com/resources/images/google.png">
-<meta property="og:updated_time" content="2020-05-21T08:25:46.959Z">
+<meta property="og:updated_time" content="2020-11-01T08:19:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="科学上网之SSR搭建教程">
 <meta name="twitter:description" content="科学上网原理和工具谈到科学上网首先离不开的是GFW(Great Firewall), 如何进行科学上网, 就是通过某种手段使得我们的流量通过(绕过)GFW的审查. 下面详细介绍如何通过(绕过)审查.">
@@ -282,6 +282,15 @@
 <p>代理规则为：绕过局域网和非大陆，则判断 <span class="exturl" data-url="aHR0cDovL3d3dy5nb29nbGUuY29t">www.google.com<i class="fa fa-external-link-alt"></i></span> 域名的IP是否是局域网IP 或 非大陆IP，然而是非大陆IP，于是不走代理，直连。</p>
 <p>代理规则为：全局，不判断 <span class="exturl" data-url="aHR0cDovL3d3dy5nb29nbGUuY29t">www.google.com<i class="fa fa-external-link-alt"></i></span> 域名的IP，直接走代理。</p>
 <h1 id="SSR的面板配置"><a href="#SSR的面板配置" class="headerlink" title="SSR的面板配置"></a>SSR的面板配置</h1><p>未完待续</p>
+<h1 id="BBR-加速"><a href="#BBR-加速" class="headerlink" title="BBR 加速"></a>BBR 加速</h1><p>查看内核版本<br>uname -r</p>
+<p>Linux Kernel 内核升级到 4.9 及以上版本可以实现 BBR 加速，由于Ubuntu 18.04 默认的内核就是 4.15版本的内核，由于Ubuntu 20.04 默认的内核就是 5.4 版本的内核，并已经默认编译了 TCP BBR 模块，所以可以直接通过参数开启。</p>
+<p>编辑 /etc/sysctl.conf文件:<br>方案1:<br>    vi /etc/sysctl.conf</p>
+<pre><code>net.core.default_qdisc=fq
+net.ipv4.tcp_congestion_control=bbr
+</code></pre><p>方案2: 执行命令<br>    echo net.core.default_qdisc=fq &gt;&gt; /etc/sysctl.conf<br>    echo net.ipv4.tcp_congestion_control=bbr &gt;&gt; /etc/sysctl.conf<br>    sysctl -p</p>
+<p>重启</p>
+<p>查看, 显示如下结果则表示开启bbr成功<br>    sysctl net.ipv4.tcp_available_congestion_control</p>
+<p>显示结果<br>    net.ipv4.tcp_available_congestion_control = bbr cubic reno</p>
 
     </div>
 
@@ -300,12 +309,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/post/PythonRandom.html" rel="prev" title="随机数">
-      <i class="fa fa-chevron-left"></i> 随机数
+    <a href="/post/Frp.html" rel="prev" title="内网穿透工具 - FRP">
+      <i class="fa fa-chevron-left"></i> 内网穿透工具 - FRP
     </a></div>
       <div class="post-nav-item">
-    <a href="/post/CrossEntropy.html" rel="next" title="信息熵 - 条件熵 - 交叉熵">
-      信息熵 - 条件熵 - 交叉熵 <i class="fa fa-chevron-right"></i>
+    <a href="/post/PythonRandom.html" rel="next" title="随机数">
+      随机数 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -372,7 +381,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#科学上网原理和工具"><span class="nav-number">1.</span> <span class="nav-text">科学上网原理和工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR搭建"><span class="nav-number">2.</span> <span class="nav-text">SSR搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR-用户自定义文件"><span class="nav-number">3.</span> <span class="nav-text">SSR 用户自定义文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A-line-which-start-with-“-”-is-comment"><span class="nav-number">4.</span> <span class="nav-text">A line which start with “#” is comment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-new-one-will-overwrite-the-same-item-before"><span class="nav-number">5.</span> <span class="nav-text">The new one will overwrite the same item before</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#“a-com”-means-“a-com”-only-“-a-com”-means-all-sub-domains-of-“a-com”-only-“-a-com”-means-“-a-com”-amp-“a-com”"><span class="nav-number">6.</span> <span class="nav-text">“a.com” means “a.com” only, “.a.com” means all sub domains of “a.com” only, “.a.com” means “.a.com” &amp; “a.com”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统代理模式-以及-代理规则"><span class="nav-number">7.</span> <span class="nav-text">系统代理模式 以及 代理规则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR的面板配置"><span class="nav-number">8.</span> <span class="nav-text">SSR的面板配置</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#科学上网原理和工具"><span class="nav-number">1.</span> <span class="nav-text">科学上网原理和工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR搭建"><span class="nav-number">2.</span> <span class="nav-text">SSR搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR-用户自定义文件"><span class="nav-number">3.</span> <span class="nav-text">SSR 用户自定义文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A-line-which-start-with-“-”-is-comment"><span class="nav-number">4.</span> <span class="nav-text">A line which start with “#” is comment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-new-one-will-overwrite-the-same-item-before"><span class="nav-number">5.</span> <span class="nav-text">The new one will overwrite the same item before</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#“a-com”-means-“a-com”-only-“-a-com”-means-all-sub-domains-of-“a-com”-only-“-a-com”-means-“-a-com”-amp-“a-com”"><span class="nav-number">6.</span> <span class="nav-text">“a.com” means “a.com” only, “.a.com” means all sub domains of “a.com” only, “.a.com” means “.a.com” &amp; “a.com”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统代理模式-以及-代理规则"><span class="nav-number">7.</span> <span class="nav-text">系统代理模式 以及 代理规则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSR的面板配置"><span class="nav-number">8.</span> <span class="nav-text">SSR的面板配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BBR-加速"><span class="nav-number">9.</span> <span class="nav-text">BBR 加速</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -425,13 +434,11 @@
         
 
         
-  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">鲁ICP备 - 20018464号 </span>
-  </div>
 
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

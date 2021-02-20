@@ -2,16 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://funnyphd.com/about/index.html</loc>
+    <loc>https://funnyphd.com/post/Frp.html</loc>
     
-    <lastmod>2020-05-21T08:27:15.714Z</lastmod>
+    <lastmod>2021-01-18T08:19:02.215Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://funnyphd.com/post/PythonNumpy.html</loc>
+    
+    <lastmod>2020-11-17T13:44:33.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://funnyphd.com/post/Ssr.html</loc>
     
-    <lastmod>2020-05-21T08:25:46.959Z</lastmod>
+    <lastmod>2020-11-01T08:19:01.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://funnyphd.com/post/PythonFile.html</loc>
+    
+    <lastmod>2020-10-16T09:11:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://funnyphd.com/post/AnacondaHelp.html</loc>
+    
+    <lastmod>2020-09-29T14:35:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://funnyphd.com/about/index.html</loc>
+    
+    <lastmod>2020-05-21T08:27:15.714Z</lastmod>
     
   </url>
   
@@ -65,13 +93,6 @@
   </url>
   
   <url>
-    <loc>https://funnyphd.com/post/Frp.html</loc>
-    
-    <lastmod>2020-05-21T07:36:54.948Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://funnyphd.com/post/PythonRandom.html</loc>
     
     <lastmod>2020-05-21T07:34:47.622Z</lastmod>
@@ -79,23 +100,9 @@
   </url>
   
   <url>
-    <loc>https://funnyphd.com/post/PythonNumpy.html</loc>
-    
-    <lastmod>2020-05-21T07:34:39.314Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://funnyphd.com/post/PythonMatlab.html</loc>
     
     <lastmod>2020-05-21T07:34:24.902Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://funnyphd.com/post/PythonFile.html</loc>
-    
-    <lastmod>2020-05-21T07:34:17.221Z</lastmod>
     
   </url>
   
@@ -117,13 +124,6 @@
     <loc>https://funnyphd.com/post/CrossEntropy.html</loc>
     
     <lastmod>2020-05-21T07:33:01.041Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://funnyphd.com/post/AnacondaHelp.html</loc>
-    
-    <lastmod>2020-05-21T07:32:39.164Z</lastmod>
     
   </url>
   

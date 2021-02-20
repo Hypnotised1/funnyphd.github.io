@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="油区的波斯猫">
 <meta property="og:description" content="maxmax(a, axis=None, out=None, keepdims=np._NoValue)Return the maximum of an array or maximum along an axis.返回array的最大值或者沿axis轴的最大值">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-05-21T07:34:39.314Z">
+<meta property="og:updated_time" content="2020-11-17T13:44:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="numpy常用函数">
 <meta name="twitter:description" content="maxmax(a, axis=None, out=None, keepdims=np._NoValue)Return the maximum of an array or maximum along an axis.返回array的最大值或者沿axis轴的最大值">
@@ -305,7 +305,16 @@
 </blockquote>
 <h1 id="设置精度"><a href="#设置精度" class="headerlink" title="设置精度"></a>设置精度</h1><p>np.set_printoptions(precision=2)</p>
 <h1 id="np-squeeze"><a href="#np-squeeze" class="headerlink" title="np.squeeze"></a>np.squeeze</h1><h1 id="empty"><a href="#empty" class="headerlink" title="empty"></a>empty</h1><p>随机初始化数组</p>
-
+<h1 id="genfromtxt"><a href="#genfromtxt" class="headerlink" title="genfromtxt"></a>genfromtxt</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def genfromtxt(fname, dtype=float, comments=&apos;#&apos;, delimiter=None,</span><br><span class="line">       skip_header=0, skip_footer=0, converters=None,</span><br><span class="line">       missing_values=None, filling_values=None, usecols=None,</span><br><span class="line">       names=None, excludelist=None,</span><br><span class="line">       deletechars=&apos;&apos;.join(sorted(NameValidator.defaultdeletechars)),</span><br><span class="line">       replace_space=&apos;_&apos;, autostrip=False, case_sensitive=True,</span><br><span class="line">       defaultfmt=&quot;f%i&quot;, unpack=None, usemask=False, loose=True,</span><br><span class="line">       invalid_raise=True, max_rows=None, encoding=&apos;bytes&apos;):</span><br></pre></td></tr></table></figure>
+<p>Load data from a text file, with missing values handled as specified.<br>Each line past the first <code>skip_header</code> lines is split at the <code>delimiter</code><br>character, and characters following the <code>comments</code> character are discarded.</p>
+<h1 id="identity"><a href="#identity" class="headerlink" title="identity"></a>identity</h1><blockquote>
+<blockquote>
+<blockquote>
+<p>np.identity(3)<br>array([[1.,  0.,  0.],<br>       [0.,  1.,  0.],<br>       [0.,  0.,  1.]])</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h1 id="numpy-ndarray-flatten"><a href="#numpy-ndarray-flatten" class="headerlink" title="numpy.ndarray.flatten()"></a>numpy.ndarray.flatten()</h1>
     </div>
 
     
@@ -395,7 +404,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#max"><span class="nav-number">1.</span> <span class="nav-text">max</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#axis参数详解"><span class="nav-number">1.1.</span> <span class="nav-text">axis参数详解</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#where"><span class="nav-number">2.</span> <span class="nav-text">where</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cumsum"><span class="nav-number">3.</span> <span class="nav-text">cumsum</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cumprod"><span class="nav-number">4.</span> <span class="nav-text">cumprod</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#asarray"><span class="nav-number">5.</span> <span class="nav-text">asarray</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#errstate"><span class="nav-number">6.</span> <span class="nav-text">errstate</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#transpose"><span class="nav-number">7.</span> <span class="nav-text">transpose</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#clip"><span class="nav-number">8.</span> <span class="nav-text">clip</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置精度"><span class="nav-number">9.</span> <span class="nav-text">设置精度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#np-squeeze"><span class="nav-number">10.</span> <span class="nav-text">np.squeeze</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#empty"><span class="nav-number">11.</span> <span class="nav-text">empty</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#max"><span class="nav-number">1.</span> <span class="nav-text">max</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#axis参数详解"><span class="nav-number">1.1.</span> <span class="nav-text">axis参数详解</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#where"><span class="nav-number">2.</span> <span class="nav-text">where</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cumsum"><span class="nav-number">3.</span> <span class="nav-text">cumsum</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cumprod"><span class="nav-number">4.</span> <span class="nav-text">cumprod</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#asarray"><span class="nav-number">5.</span> <span class="nav-text">asarray</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#errstate"><span class="nav-number">6.</span> <span class="nav-text">errstate</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#transpose"><span class="nav-number">7.</span> <span class="nav-text">transpose</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#clip"><span class="nav-number">8.</span> <span class="nav-text">clip</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置精度"><span class="nav-number">9.</span> <span class="nav-text">设置精度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#np-squeeze"><span class="nav-number">10.</span> <span class="nav-text">np.squeeze</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#empty"><span class="nav-number">11.</span> <span class="nav-text">empty</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#genfromtxt"><span class="nav-number">12.</span> <span class="nav-text">genfromtxt</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#identity"><span class="nav-number">13.</span> <span class="nav-text">identity</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#numpy-ndarray-flatten"><span class="nav-number">14.</span> <span class="nav-text">numpy.ndarray.flatten()</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -448,13 +457,11 @@
         
 
         
-  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">鲁ICP备 - 20018464号 </span>
-  </div>
 
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -30,7 +30,7 @@
 <meta property="og:site_name" content="油区的波斯猫">
 <meta property="og:description" content="在日常工作中, 我们有时需要处理大量文件以及文件夹, 本文介绍python中操作文件(夹)的模块os和shutil 以及查看文件状态的模块stat.  注意: os模块中也有stat函数, 使用方法为os.stat(path, *, dir_fd=None, follow_symlinks=True), 模块stat为实现os.stat()的底层模块, 可以直接调用该模块查看文件详细信息, 也可以">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-05-21T07:34:17.221Z">
+<meta property="og:updated_time" content="2020-10-16T09:11:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python操作文件(夹)">
 <meta name="twitter:description" content="在日常工作中, 我们有时需要处理大量文件以及文件夹, 本文介绍python中操作文件(夹)的模块os和shutil 以及查看文件状态的模块stat.  注意: os模块中也有stat函数, 使用方法为os.stat(path, *, dir_fd=None, follow_symlinks=True), 模块stat为实现os.stat()的底层模块, 可以直接调用该模块查看文件详细信息, 也可以">
@@ -243,11 +243,14 @@
 <pre><code>os.path.dirname(__file__)
 </code></pre><p>将目录切换至C盘下的Windows文件夹</p>
 <pre><code>os.chdir(&apos;C:/Windows&apos;)
+</code></pre><p>将目录切换至当前执行文件的文件夹下</p>
+<pre><code>os.chdir(os.path.dirname(__file__))
 </code></pre><p>查看当面目录下所有文件(夹)</p>
 <pre><code>os.listdir(path=None)
 os.listdir()
 &gt;&gt;&gt;[&apos;node_modules&apos;, &apos;package.json&apos;, &apos;public&apos;, &apos;scaffolds&apos;, &apos;source&apos;, &apos;themes&apos;, &apos;_config.yml&apos;]
-</code></pre><p>查看文件(夹)信息</p>
+</code></pre><p>文件名和扩展名分离<br>    filaname=’hello.py’<br>    os.path.splitext(filename)<br>    &gt;&gt;&gt;(‘hello’, ‘.py’)</p>
+<p>查看文件(夹)信息</p>
 <pre><code>os.stat(&apos;./aaa.txt)
 &gt;&gt;&gt;os.stat_result(st_mode=33060, st_ino=1125899906847384, st_dev=1511501194, st_nlink=1, st_uid=0, st_gid=0, st_size=26, st_atime=1580096882, st_mtime=1580096858, st_ctime=1580096735)
 </code></pre><blockquote>
@@ -440,13 +443,11 @@ shutil.move(&apos;D:/aa/aaa.txt&apos;,&apos;D:/aa/xxx.txt&apos;)
         
 
         
-  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">鲁ICP备 - 20018464号 </span>
-  </div>
 
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
